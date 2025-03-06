@@ -501,6 +501,8 @@
 				variant="secondary"
 				class="mt-4"
 				onclick={() => {
+					applyTransformOfSelected();
+					editorState.selectedObject = null;
 					currentHandle = client.profile?.handle ?? '';
 					profile = client.profile;
 					editorState.isEditing = false;
@@ -581,12 +583,16 @@
 			<Avatar src={profile?.avatar} />
 		{/if}
 		<Heading>
+			{#if currentHandle}
 			<a
 				href={`https://bsky.app/profile/${profile?.handle}`}
 				target="_blank"
 				class="hover:text-accent-600 dark:hover:text-accent-500 pointer-events-auto"
 				>{currentHandle}'s</a
 			>
+			{:else}
+			my
+			{/if}
 			room</Heading
 		>
 	</div>
@@ -680,7 +686,7 @@
 		class="mt-4 py-3"
 		href={'https://bsky.app/intent/compose?text=' +
 			encodeURIComponent(
-				`Check out my bluesky room: https://flo-bit.dev/room/?handle=${client.profile?.handle}`
+				`Check out my bluesky room: https://flo-bit.dev/room/?handle=${client.profile?.handle} made by @flo-bit.dev`
 			)}
 		target="_blank"
 	>
