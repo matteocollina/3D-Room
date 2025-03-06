@@ -6,6 +6,7 @@
 	import BlueskyLoginModal from '$lib/components/base/modal/BlueskyLoginModal.svelte';
 	import Head from '$lib/components/base/head/Head.svelte';
 	import { base } from '$app/paths';
+	import { Toaster } from '$lib/components/base/sonner';
 
 	let { children } = $props();
 
@@ -24,3 +25,5 @@
 	description="my tiny bluesky room"
 	image={base + '/og-image.png'}
 />
+
+<Toaster />

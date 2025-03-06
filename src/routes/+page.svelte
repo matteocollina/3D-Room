@@ -21,6 +21,8 @@
 	import Heading from '$lib/components/base/heading/Heading.svelte';
 	import Subheading from '$lib/components/base/heading/Subheading.svelte';
 
+	import { toast } from 'svelte-sonner';
+
 	import * as Popover from '$lib/components/base/popover';
 	import { cn } from '$lib/utils';
 	import ColorPicker from '$lib/components/extra/color-picker';
@@ -41,6 +43,16 @@
 		editorState.selectedObject = null;
 
 		try {
+			// @ts-ignore
+			if (window.umami) {
+				// @ts-ignore
+				window.umami?.track('room_save', {
+					handle: client.profile.handle,
+					did: client.profile.did,
+					objectCount: roomState.objects.length
+				});
+			}
+
 			const hello = await client.rpc.call('com.atproto.repo.putRecord', {
 				data: {
 					collection: 'dev.flo-bit.room',
@@ -68,12 +80,16 @@
 					handle: client.profile.handle,
 					objectCount: roomState.objects.length
 				});
+				console.log('saved room_save');
 			}
 
 			// TODO: show success modal
 			successModalState = true;
+
+			toast.success('Room saved to your profile');
 		} catch (e) {
 			console.error(e);
+			toast.error('Failed to save room, please try again');
 		}
 	}
 
