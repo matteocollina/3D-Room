@@ -16,6 +16,11 @@
 
 {@render children()}
 
-<BlueskyLoginModal login={login} />
+<BlueskyLoginModal {login} />
 
-<Head emojiFavicon="🏠" title="my room" description="create your own room and share it on bluesky" image={base + "/og-image.png"} />
+<Head
+	emojiFavicon="🏠"
+	title="my room"
+	description="my tiny bluesky room"
+	image={base + '/og-image.png'}
+/>
