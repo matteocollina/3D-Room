@@ -556,8 +556,62 @@
 				/>
 			</div>
 
-			<Subheading class="mt-4">Danger zone</Subheading>
+			<Button
+				class="mt-6"
+				variant="secondary"
+				onclick={async () => {
+					const json = JSON.stringify(roomState, null, 2);
+					const blob = new Blob([json], { type: 'application/json' });
+					const url = URL.createObjectURL(blob);
+					const a = document.createElement('a');
+					a.href = url;
+					a.download = 'room.json';
+					a.click();
+				}}
+			>
+				Export as json
+			</Button>
+			<Subheading class="mt-2">Danger zone</Subheading>
 			<div class="mt-4 flex gap-2">
+				<Button
+					variant="red"
+					onclick={() => {
+						const file = document.createElement('input');
+						file.type = 'file';
+						file.accept = '.json';
+						file.onchange = (e) => {
+							// @ts-ignore
+							if (!e.target?.files) {
+								console.error('no files found');
+								return;
+							}
+							// @ts-ignore
+							const file = e.target.files[0];
+							const reader = new FileReader();
+							reader.onload = (e) => {
+								if (!e.target?.result) {
+									console.error('no result found');
+									return;
+								}
+
+								const json = JSON.parse(e.target.result as string);
+								roomState.floorColor = json.floorColor;
+								roomState.wallColor = json.wallColor;
+								roomState.objects = json.objects;
+								roomState.size = json.size;
+								roomState.id = json.id;
+								roomState.version = json.version;
+
+								saveRoomToLocalStorage();
+							};
+							reader.readAsText(file);
+						};
+						file.click();
+					}}
+				>
+					Import from json
+				</Button>
+
 				{#if client.isLoggedIn}
 					<Button
 						variant="red"
@@ -600,14 +654,14 @@
 		{/if}
 		<Heading>
 			{#if currentHandle}
-			<a
-				href={`https://bsky.app/profile/${profile?.handle}`}
-				target="_blank"
-				class="hover:text-accent-600 dark:hover:text-accent-500 pointer-events-auto"
-				>{currentHandle}'s</a
-			>
+				<a
+					href={`https://bsky.app/profile/${profile?.handle}`}
+					target="_blank"
+					class="hover:text-accent-600 dark:hover:text-accent-500 pointer-events-auto"
+					>{currentHandle}'s</a
+				>
 			{:else}
-			my
+				my
 			{/if}
 			room</Heading
 		>
@@ -702,7 +756,7 @@
 		class="mt-4 py-3"
 		href={'https://bsky.app/intent/compose?text=' +
 			encodeURIComponent(
-				`Check out my bluesky room: https://flo-bit.dev/room/?handle=${client.profile?.handle} made by @flo-bit.dev`
+				`Check out my tiny room: https://flo-bit.dev/room/?handle=${client.profile?.handle}`
 			)}
 		target="_blank"
 	>
@@ -717,6 +771,25 @@
 			/></svg
 		>
 		Share on Bluesky</Button
+	>
+
+	<Button
+		variant="secondary"
+		class="py-3"
+		onclick={() => {
+			navigator.clipboard.writeText(`https://flo-bit.dev/room/?handle=${client.profile?.handle}`);
+			toast.success('Share link copied to clipboard');
+		}}
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+			<path
+				fill-rule="evenodd"
+				d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z"
+				clip-rule="evenodd"
+			/>
+		</svg>
+
+		Copy share link</Button
 	>
 </Modal>
 

@@ -3,10 +3,10 @@
 	import { T, type Props } from '@threlte/core';
 	import { roomState } from './state.svelte';
 
-	let { ...restProps }: Props<THREE.Mesh> = $props();
+	let { size = [0.1, 2, 1], ...restProps }: Props<THREE.Mesh> & { size?: [number, number, number] } = $props();
 </script>
 
 <T.Mesh {...restProps} receiveShadow castShadow>
-	<T.BoxGeometry args={[0.1, 2, 1]} />
+	<T.BoxGeometry args={size} />
 	<T.MeshStandardMaterial color={roomState.wallColor} />
 </T.Mesh>
