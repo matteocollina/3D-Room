@@ -1,0 +1,110 @@
+<script lang="ts">
+	import { T, useThrelte } from '@threlte/core';
+	import { interactivity, useCursor, useViewport } from '@threlte/extras';
+	import { ACESFilmicToneMapping } from 'three';
+	import {
+		AllObjects,
+		applyTransformOfSelected,
+		editorState,
+		type RoomObjectKind
+	} from './state.svelte';
+	import { onMount } from 'svelte';
+
+	interactivity();
+
+	const { onPointerEnter, onPointerLeave } = useCursor();
+
+	const viewport = useViewport();
+
+	const { renderer } = useThrelte();
+
+	onMount(() => {
+		renderer.toneMapping = ACESFilmicToneMapping;
+		renderer.toneMappingExposure = 0.2;
+
+		window.addEventListener('resize', (e) => {
+			updateShownCount();
+		});
+
+		updateShownCount();
+	});
+
+	function updateShownCount() {
+		editorState.shownCount = Math.max(Math.floor(window.innerWidth / 200), 3);
+	}
+
+	let hoveredKey: string | null = $state(null);
+
+	let objectsShown = $derived(
+		Object.values(AllObjects).slice(
+			editorState.startIndex,
+			editorState.startIndex + editorState.shownCount
+		)
+	);
+</script>
+
+<T.OrthographicCamera makeDefault zoom={80} position={[0, 0, 10]} />
+<T.AmbientLight intensity={Math.PI / 2} />
+
+<T.DirectionalLight position={[10, 10, 10]} intensity={3} />
+
+{#each objectsShown as Kind, i}
+	<T.Group
+		position={[
+			$viewport.width * (((i + 0.5) / objectsShown.length - 0.5) * 0.8),
+			-$viewport.height / 2 + 0.3,
+			0
+		]}
+	>
+		<Kind.component rotation={[0.2, 0.5, 0]} />
+
+		<T.Mesh
+			position={[0, 0.2, -10]}
+			onclick={async () => {
+				if (editorState.placingObject) {
+					editorState.placingObject = null;
+
+					// wait 10 ms
+					await new Promise((resolve) => setTimeout(resolve, 10));
+				}
+
+				applyTransformOfSelected();
+
+				setTimeout(() => {
+					editorState.selectedObject = null;
+				}, 100);
+
+				console.log(Object.keys(AllObjects)[i + editorState.startIndex], editorState.placingObject);
+
+				editorState.placingObject = {
+					kind: Object.keys(AllObjects)[i + editorState.startIndex] as RoomObjectKind,
+					position: [0, 0, 0],
+					rotation: 0,
+					colors: ['#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1'],
+					placement: 'floor'
+				};
+			}}
+			onpointerenter={() => {
+				hoveredKey = Object.keys(AllObjects)[i + editorState.startIndex];
+
+				onPointerEnter();
+			}}
+			onpointerleave={() => {
+				hoveredKey = null;
+
+				onPointerLeave();
+			}}
+		>
+			<T.PlaneGeometry args={[1.5, 2]} />
+			<T.MeshBasicMaterial
+				opacity={editorState.placingObject?.kind ===
+				Object.keys(AllObjects)[i + editorState.startIndex]
+					? 0.5
+					: hoveredKey === Object.keys(AllObjects)[i + editorState.startIndex]
+						? 0.15
+						: 0}
+				transparent
+			/>
+		</T.Mesh>
+	</T.Group>
+{/each}
