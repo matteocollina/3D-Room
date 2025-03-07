@@ -2,10 +2,7 @@
 	import { T, useThrelte } from '@threlte/core';
 	import { interactivity, useCursor, useViewport } from '@threlte/extras';
 	import { ACESFilmicToneMapping } from 'three';
-	import {
-		applyTransformOfSelected,
-		editorState
-	} from './state.svelte';
+	import { applyTransformOfSelected, editorState } from './state.svelte';
 	import { onMount } from 'svelte';
 	import { AllObjects, type RoomObjectKind } from './models';
 
@@ -34,12 +31,17 @@
 
 	let hoveredKey: string | null = $state(null);
 
-	let objectsShown = $derived(
-		Object.values(AllObjects).slice(
-			editorState.startIndex,
-			editorState.startIndex + editorState.shownCount
-		)
+	const visibleObjects = Object.fromEntries(
+		Object.entries(AllObjects).filter(([key, value]) => value.visible !== false)
 	);
+
+	const visibleKeys = Object.keys(visibleObjects);
+
+	let objectsShown = $derived(
+		Object.values(visibleObjects).slice(editorState.startIndex, editorState.startIndex + editorState.shownCount)
+	);
+
+	$inspect(objectsShown);
 </script>
 
 <T.OrthographicCamera makeDefault zoom={80} position={[0, 0, 10]} />
@@ -55,7 +57,7 @@
 			0
 		]}
 	>
-		<Kind.component rotation={[0.2, 0.5, 0]} />
+		<Kind.component scale={0.5} rotation={[0.2, 0.5, 0]} />
 
 		<T.Mesh
 			position={[0, 0.2, -10]}
@@ -73,10 +75,10 @@
 					editorState.selectedObject = null;
 				}, 100);
 
-				console.log(Object.keys(AllObjects)[i + editorState.startIndex], editorState.placingObject);
+				console.log(visibleKeys[i + editorState.startIndex], editorState.placingObject);
 
 				editorState.placingObject = {
-					kind: Object.keys(AllObjects)[i + editorState.startIndex] as RoomObjectKind,
+					kind: visibleKeys[i + editorState.startIndex] as RoomObjectKind,
 					position: [0, 0, 0],
 					rotation: 0,
 					colors: ['#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1'],
@@ -84,7 +86,7 @@
 				};
 			}}
 			onpointerenter={() => {
-				hoveredKey = Object.keys(AllObjects)[i + editorState.startIndex];
+				hoveredKey = visibleKeys[i + editorState.startIndex];
 
 				onPointerEnter();
 			}}
@@ -97,9 +99,9 @@
 			<T.PlaneGeometry args={[1.5, 2]} />
 			<T.MeshBasicMaterial
 				opacity={editorState.placingObject?.kind ===
-				Object.keys(AllObjects)[i + editorState.startIndex]
+				visibleKeys[i + editorState.startIndex]
 					? 0.5
-					: hoveredKey === Object.keys(AllObjects)[i + editorState.startIndex]
+					: hoveredKey === visibleKeys[i + editorState.startIndex]
 						? 0.15
 						: 0}
 				transparent

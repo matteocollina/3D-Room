@@ -160,7 +160,11 @@
 		// get handle from url search params
 		let handle = new URLSearchParams(window.location.search).get('handle');
 		if (!handle) {
-			handle = 'flo-bit.dev';
+			tryLoadingRoomFromLocalStorage();
+			loading = false;
+			currentHandle = '';
+			editorState.isEditing = true;
+			return;
 		}
 
 		currentHandle = handle;
@@ -228,7 +232,7 @@
 	});
 </script>
 
-<div class="h-[100dvh] w-screen">
+<div class="h-[100dvh] w-screen fixed inset-0">
 	<Canvas>
 		<Scene />
 	</Canvas>
@@ -309,7 +313,7 @@
 				<Button
 					size="icon"
 					onclick={() => {
-						rotateObject(-Math.PI / 6);
+						rotateObject(-Math.PI / 8);
 					}}
 					variant="secondary"
 				>
@@ -332,7 +336,7 @@
 				<Button
 					size="icon"
 					onclick={() => {
-						rotateObject(Math.PI / 6);
+						rotateObject(Math.PI / 8);
 					}}
 					variant="secondary"
 				>

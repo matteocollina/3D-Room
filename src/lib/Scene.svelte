@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import { ACESFilmicToneMapping } from 'three';
 	import { base } from '$app/paths';
-
+	
 	const { renderer, scene } = useThrelte();
 
 	let lightIntensity = $state(0.4);

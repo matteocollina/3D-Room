@@ -22,5 +22,11 @@
 {@render object()}
 
 {#snippet object()}
-	<ObjectComponent {...restProps} colors={colors} opacity={opacity} />
+	<ObjectComponent
+		{...restProps}
+		{colors}
+		{opacity}
+		videoId={'https://www.youtube.com/watch?v=k1BneeJTDcU'}
+		scale={0.3}
+	/>
 {/snippet}

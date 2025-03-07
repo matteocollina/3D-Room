@@ -17,8 +17,8 @@
 		});
 	});
 
-	let rotation = Math.PI / 6;
-	let snap = 0.125 * 0.5;
+	let rotation = Math.PI / 8;
+	let snap = 0.125 * 0.125;
 </script>
 
 <T.Group position.y={editorState.isEditing ? 0 : -1}>
@@ -101,13 +101,12 @@
 				position={object.position}
 				rotation={[0, object.rotation, 0]}
 				enableRotate={false}
-				showY={false}
 				onchange={(e) => {
 					if (!e.target || !e.target.object) return;
 
 					e.target.object.position.clamp(
 						new THREE.Vector3(-roomState.size.z / 2, 0, -roomState.size.x / 2),
-						new THREE.Vector3(roomState.size.z / 2, 0, roomState.size.x / 2)
+						new THREE.Vector3(roomState.size.z / 2, 2, roomState.size.x / 2)
 					);
 				}}
 			>

@@ -34,150 +34,197 @@ import RugRectangle from './models/kenney-furniture-kit/rugRectangle.svelte';
 import RugRound from './models/kenney-furniture-kit/rugRound.svelte';
 import RugRounded from './models/kenney-furniture-kit/rugRounded.svelte';
 import RugSquare from './models/kenney-furniture-kit/rugSquare.svelte';
+import TelevisionModern from './models/kenney-furniture-kit/televisionModern.svelte';
+import ArmchairPillows from './models/kaykit-furniture-kit/armchair_pillows.svelte';
 
 export const AllObjects = {
 	'kenney-furniture-kit-table': {
 		component: Table,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-lampRoundFloor': {
 		component: LampRoundFloor,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-loungeChair': {
 		component: LoungeChair,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-loungeSofa': {
 		component: LoungeSofa,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-pottedPlant': {
 		component: PottedPlant,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-sideTable': {
 		component: SideTable,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-bedBunk': {
 		component: BedBunk,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-bedDouble': {
 		component: BedDouble,
-		colors: 4
+		colors: 4,
+		visible: false
 	},
 	'kenney-furniture-kit-bedSingle': {
 		component: BedSingle,
-		colors: 4
+		colors: 4,
+		visible: false
 	},
 	'kenney-furniture-kit-bench': {
 		component: Bench,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-benchCushion': {
 		component: BenchCushion,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-benchCushionLow': {
 		component: BenchCushionLow,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-bookcaseClosed': {
 		component: BookcaseClosed,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-cabinetBed': {
 		component: CabinetBed,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-cabinetBedDrawer': {
 		component: CabinetBedDrawer,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-cabinetBedDrawerTable': {
 		component: CabinetBedDrawerTable,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-chair': {
 		component: Chair,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-chairCushion': {
 		component: ChairCushion,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-chairDesk': {
 		component: ChairDesk,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-chairModernCushion': {
 		component: ChairModernCushion,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-chairModernFrameCushion': {
 		component: ChairModernFrameCushion,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-chairRounded': {
 		component: ChairRounded,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-coatRackStanding': {
 		component: CoatRackStanding,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-desk': {
 		component: Desk,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-deskCorner': {
 		component: DeskCorner,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-doorway': {
 		component: Doorway,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-doorwayFront': {
 		component: DoorwayFront,
-		colors: 4
+		colors: 4,
+		visible: false
 	},
 	'kenney-furniture-kit-dryer': {
 		component: Dryer,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-kitchenBar': {
 		component: KitchenBar,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-kitchenCabinet': {
 		component: KitchenCabinet,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-kitchenCabinetDrawer': {
 		component: KitchenCabinetDrawer,
-		colors: 3
+		colors: 3,
+		visible: false
 	},
 	'kenney-furniture-kit-rugDoormat': {
 		component: RugDoormat,
-		colors: 1
+		colors: 1,
+		visible: false
 	},
 	'kenney-furniture-kit-rugRectangle': {
 		component: RugRectangle,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-rugRound': {
 		component: RugRound,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-rugRounded': {
 		component: RugRounded,
-		colors: 2
+		colors: 2,
+		visible: false
 	},
 	'kenney-furniture-kit-rugSquare': {
 		component: RugSquare,
+		colors: 2,
+		visible: false
+	},
+	'kenney-furniture-kit-televisionModern': {
+		component: TelevisionModern,
+		colors: 2,
+		visible: false
+	},
+	'kaykit-furniture-kit-armchair_pillows': {
+		component: ArmchairPillows,
 		colors: 2
 	}
 };

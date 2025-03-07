@@ -1,27 +1,36 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { cn } from '$lib/utils';
+	import { onMount } from 'svelte';
 
-	const { class: className, id }: { class?: string; id?: string } = $props();
+	let {
+		class: className,
+		id,
+		playPause = $bindable()
+	}: { class?: string; id?: string; playPause?: () => void } = $props();
+
+	playPause = () => {
+		if(player?.paused) {
+			player?.play();
+		} else {
+			player?.pause();
+		}
+	};
 
 	let Plyr: typeof import('plyr') | undefined = $state();
+
 	onMount(async () => {
 		Plyr = (await import('plyr')).default;
 	});
 
+	let player: Plyr | undefined = $state();
+
 	$effect(() => {
 		if (!Plyr) return;
+		if(player) return;
 
-		const player = new Plyr('.js-player', {
-			settings: ['captions', 'quality', 'loop', 'speed'],
+		player = new Plyr('.js-player', {
 			controls: [
 				'play-large',
-				'play',
-				'progress',
-				'current-time',
-				'volume',
-				'download',
-				'fullscreen'
 			]
 		});
 
@@ -39,11 +48,9 @@
 		}
 
 		return () => {
-			player.destroy();
+			player?.destroy();
 		};
 	});
-
-	let glow = 15;
 </script>
 
 <svelte:head>
@@ -54,14 +61,13 @@
 	{#if id}
 		<div
 			class={cn(
-				'border-base-400 relative aspect-video w-full overflow-hidden rounded-2xl border bg-white object-cover dark:border-white/10 dark:bg-white/5',
+				'relative aspect-video h-full w-full overflow-hidden bg-white object-cover dark:bg-black',
 				className
 			)}
-			style="filter: url(#blur-fullscreen); width: 100%;"
 		>
 			<div
 				id="player"
-				class="h-full w-full overflow-hidden rounded-xl object-cover font-semibold text-black dark:text-white"
+				class="h-full w-full overflow-hidden object-cover font-semibold text-black dark:text-white"
 			>
 				<div
 					class="js-player plyr__video-embed"
@@ -73,14 +79,6 @@
 		</div>
 	{/if}
 {/key}
-
-<svg width="0" height="0">
-	<filter id="blur-fullscreen" y="-50%" x="-50%" width="200%" height="200%">
-		<feGaussianBlur in="SourceGraphic" stdDeviation={glow} result="blurred" />
-		<feColorMatrix type="saturate" in="blurred" values="2" />
-		<feComposite in="SourceGraphic" operator="over" />
-	</filter>
-</svg>
 
 <style>
 	* {
