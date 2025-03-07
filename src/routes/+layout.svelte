@@ -23,7 +23,7 @@
 	emojiFavicon="🏠"
 	title="my room"
 	description="my tiny bluesky room"
-	image={base + '/og-image.png'}
+	image={base + '/og-image.jpg'}
 />
 
 <Toaster />
