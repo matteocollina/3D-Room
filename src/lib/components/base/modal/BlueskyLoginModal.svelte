@@ -79,6 +79,12 @@
 			</a>, then come back here.
 		</div>
 
+
+
+		<div class="text-base-600 dark:text-base-400 text-xs leading-5">
+			Don't worry, your room will keep being here.
+		</div>
+
 		<div class="mt-4 w-full">
 			<Label for="bluesky-handle" class="text-sm">Your handle</Label>
 			<div class="mt-2">

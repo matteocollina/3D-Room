@@ -4,14 +4,12 @@
 	import { onMount } from 'svelte';
 	import { client, getRoom, resolveHandle } from '$lib/oauth/auth.svelte';
 	import {
-		AllObjects,
 		editorState,
 		roomState,
 		applyTransformOfSelected,
 		rotateObject,
 		type RoomObjectData,
 		saveRoomToLocalStorage,
-		currentVersion,
 		tryLoadingRoomFromLocalStorage
 	} from '$lib/state.svelte';
 	import { Button } from '$lib/components/base/button';
@@ -34,6 +32,8 @@
 	} from '$lib/components/extra/color-picker/color';
 	import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 	import Avatar from '$lib/components/base/avatar/Avatar.svelte';
+	import ColorPickerPopover from './ColorPickerPopover.svelte';
+	import { AllObjects } from '$lib/models';
 
 	async function saveRoomToBluesky() {
 		if (!client.rpc || !client.profile) return;
@@ -197,6 +197,26 @@
 			client.justLoggedIn = false;
 		}
 	});
+
+	let lastUsedColors = $derived.by(() => {
+		let colors = [];
+
+		for (const object of roomState.objects.toReversed()) {
+			for (const color of object.colors) {
+				colors.push(color);
+			}
+		}
+		// filter out  default colors (#f1f1f1, #a1a1a1)
+		colors = colors.filter((color, index, self) => {
+			return color !== '#f1f1f1' && color !== '#a1a1a1';
+		});
+
+		// filter out duplicates
+		colors = Array.from(new Set(colors));
+
+		// return first 14 colors
+		return colors.slice(0, 14);
+	});
 </script>
 
 <div class="h-[100dvh] w-screen">
@@ -324,120 +344,77 @@
 				</Button>
 			</div>
 
-			<Popover.Root>
-				<Popover.Trigger class={cn('mt-5 ml-1 cursor-pointer')}>
-					<div
-						class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
-						style={`background-color: ${editorState.selectedObject.colors[0]};`}
-					></div>
-				</Popover.Trigger>
-				<Popover.Content side="right" sideOffset={10}>
-					<ColorPicker
-						bind:okhsv
-						on:change={(e) => {
-							if (!editorState.selectedObject) return;
+			<ColorPickerPopover
+				lastUsedColors={lastUsedColors}
+				bind:okhsv
+				hex={editorState.selectedObject.colors[0]}
+				onChange={() => {
+					if (!editorState.selectedObject) return;
 
-							const rgb = okhsv_to_rgb(okhsv);
-							editorState.selectedObject.colors[0] = rgb_to_hex(rgb);
-						}}
-					/>
-				</Popover.Content>
-			</Popover.Root>
+					const rgb = okhsv_to_rgb(okhsv);
+					editorState.selectedObject.colors[0] = rgb_to_hex(rgb);
+					saveRoomToLocalStorage();
+				}}
+			/>
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 1}
-				<Popover.Root>
-					<Popover.Trigger class={cn('mt-2 ml-1 cursor-pointer')}>
-						<div
-							class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
-							style={`background-color: ${editorState.selectedObject.colors[1]};`}
-						></div>
-					</Popover.Trigger>
-					<Popover.Content side="left" sideOffset={10}>
-						<ColorPicker
-							bind:okhsv={okhsv2}
-							on:change={(e) => {
-								if (!editorState.selectedObject) return;
+				<ColorPickerPopover
+					lastUsedColors={lastUsedColors}
+					bind:okhsv={okhsv2}
+					hex={editorState.selectedObject.colors[1]}
+					onChange={() => {
+						if (!editorState.selectedObject) return;
 
-								const rgb = okhsv_to_rgb(okhsv2);
-								editorState.selectedObject.colors[1] = rgb_to_hex(rgb);
-
-								saveRoomToLocalStorage();
-							}}
-						/>
-					</Popover.Content>
-				</Popover.Root>
+						const rgb = okhsv_to_rgb(okhsv2);
+						editorState.selectedObject.colors[1] = rgb_to_hex(rgb);
+						saveRoomToLocalStorage();
+					}}
+				/>
 			{/if}
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 2}
-				<Popover.Root>
-					<Popover.Trigger class={cn('mt-2 ml-1 cursor-pointer')}>
-						<div
-							class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
-							style={`background-color: ${editorState.selectedObject.colors[2]};`}
-						></div>
-					</Popover.Trigger>
-					<Popover.Content side="left" sideOffset={10}>
-						<ColorPicker
-							bind:okhsv={okhsv3}
-							on:change={(e) => {
-								if (!editorState.selectedObject) return;
+				<ColorPickerPopover
+					lastUsedColors={lastUsedColors}
+					bind:okhsv={okhsv3}
+					hex={editorState.selectedObject.colors[2]}
+					onChange={() => {
+						if (!editorState.selectedObject) return;
 
-								const rgb = okhsv_to_rgb(okhsv3);
-								editorState.selectedObject.colors[2] = rgb_to_hex(rgb);
-
-								saveRoomToLocalStorage();
-							}}
-						/>
-					</Popover.Content>
-				</Popover.Root>
+						const rgb = okhsv_to_rgb(okhsv3);
+						editorState.selectedObject.colors[2] = rgb_to_hex(rgb);
+						saveRoomToLocalStorage();
+					}}
+				/>
 			{/if}
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 3}
-				<Popover.Root>
-					<Popover.Trigger class={cn('mt-2 ml-1 cursor-pointer')}>
-						<div
-							class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
-							style={`background-color: ${editorState.selectedObject.colors[3]};`}
-						></div>
-					</Popover.Trigger>
-					<Popover.Content side="left" sideOffset={10}>
-						<ColorPicker
-							bind:okhsv={okhsv4}
-							on:change={(e) => {
-								if (!editorState.selectedObject) return;
+				<ColorPickerPopover
+					lastUsedColors={lastUsedColors}
+					bind:okhsv={okhsv4}
+					hex={editorState.selectedObject.colors[3]}
+					onChange={() => {
+						if (!editorState.selectedObject) return;
 
-								const rgb = okhsv_to_rgb(okhsv4);
-								editorState.selectedObject.colors[3] = rgb_to_hex(rgb);
-
-								saveRoomToLocalStorage();
-							}}
-						/>
-					</Popover.Content>
-				</Popover.Root>
+						const rgb = okhsv_to_rgb(okhsv4);
+						editorState.selectedObject.colors[3] = rgb_to_hex(rgb);
+						saveRoomToLocalStorage();
+					}}
+				/>
 			{/if}
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 4}
-				<Popover.Root>
-					<Popover.Trigger class={cn('mt-2 ml-1 cursor-pointer')}>
-						<div
-							class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
-							style={`background-color: ${editorState.selectedObject.colors[4]};`}
-						></div>
-					</Popover.Trigger>
-					<Popover.Content side="left" sideOffset={10}>
-						<ColorPicker
-							bind:okhsv={okhsv5}
-							on:change={(e) => {
-								if (!editorState.selectedObject) return;
+				<ColorPickerPopover
+					lastUsedColors={lastUsedColors}
+					bind:okhsv={okhsv5}
+					hex={editorState.selectedObject.colors[4]}
+					onChange={() => {
+						if (!editorState.selectedObject) return;
 
-								const rgb = okhsv_to_rgb(okhsv5);
-								editorState.selectedObject.colors[4] = rgb_to_hex(rgb);
-
-								saveRoomToLocalStorage();
-							}}
-						/>
-					</Popover.Content>
-				</Popover.Root>
+						const rgb = okhsv_to_rgb(okhsv5);
+						editorState.selectedObject.colors[4] = rgb_to_hex(rgb);
+						saveRoomToLocalStorage();
+					}}
+				/>
 			{/if}
 		{/if}
 	</div>
@@ -572,7 +549,7 @@
 				Export as json
 			</Button>
 			<Subheading class="mt-2">Danger zone</Subheading>
-			<div class="mt-4 flex gap-2">
+			<div class="mt-4 flex gap-2 flex-wrap">
 				<Button
 					variant="red"
 					onclick={() => {
@@ -669,6 +646,7 @@
 
 	<div class="pointer-events-none fixed right-4 bottom-4 left-4 flex justify-between">
 		<Button
+			size="lg"
 			onclick={() => {
 				infoModalState = true;
 			}}
@@ -678,6 +656,7 @@
 		</Button>
 
 		<Button
+			size="lg"
 			onclick={() => {
 				if (client.profile?.handle == currentHandle) {
 					editorState.isEditing = true;

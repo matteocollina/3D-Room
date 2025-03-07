@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { type Props } from '@threlte/core';
 	import type * as THREE from 'three';
-	import type { RoomObjectKind } from './state.svelte';
-	import { AllObjects } from './state.svelte';
+	import { AllObjects, type RoomObjectKind } from './models';
 
 	let {
 		kind,

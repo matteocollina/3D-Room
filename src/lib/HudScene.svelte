@@ -3,12 +3,12 @@
 	import { interactivity, useCursor, useViewport } from '@threlte/extras';
 	import { ACESFilmicToneMapping } from 'three';
 	import {
-		AllObjects,
 		applyTransformOfSelected,
 		editorState,
 		type RoomObjectKind
 	} from './state.svelte';
 	import { onMount } from 'svelte';
+	import { AllObjects } from './models';
 
 	interactivity();
 
