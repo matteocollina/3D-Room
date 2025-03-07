@@ -4,7 +4,7 @@
 	import { ACESFilmicToneMapping } from 'three';
 	import { applyTransformOfSelected, editorState } from './state.svelte';
 	import { onMount } from 'svelte';
-	import { AllObjects, type RoomObjectKind } from './models';
+	import { visibleKeys, visibleObjects, type RoomObjectKind } from './models';
 
 	interactivity();
 
@@ -30,12 +30,6 @@
 	}
 
 	let hoveredKey: string | null = $state(null);
-
-	const visibleObjects = Object.fromEntries(
-		Object.entries(AllObjects).filter(([key, value]) => value.visible !== false)
-	);
-
-	const visibleKeys = Object.keys(visibleObjects);
 
 	let objectsShown = $derived(
 		Object.values(visibleObjects).slice(

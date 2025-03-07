@@ -51,8 +51,9 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/chair_stoo
 			castShadow
 			receiveShadow
 			geometry={gltf.nodes.chair_stool_wood.geometry}
-			material={gltf.nodes.chair_stool_wood.material}
-		/>
+		>
+			<RoomObjectMaterial index={0} {colors} {opacity} />
+		</T.Mesh>
 	{:catch err}
 		{@render error?.({ error: err })}
 	{/await}

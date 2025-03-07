@@ -27,6 +27,6 @@
 		{colors}
 		{opacity}
 		videoId={'https://www.youtube.com/watch?v=k1BneeJTDcU'}
-		scale={0.3}
+		scale={AllObjects[kind]?.scale ?? 1}
 	/>
 {/snippet}

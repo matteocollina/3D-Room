@@ -33,7 +33,7 @@
 	import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 	import Avatar from '$lib/components/base/avatar/Avatar.svelte';
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
-	import { AllObjects } from '$lib/models';
+	import { AllObjects, visibleKeys } from '$lib/models';
 
 	let saving = $state(false);
 	async function saveRoomToBluesky() {
@@ -242,7 +242,7 @@
 		class="fixed right-4 bottom-4"
 		onclick={() => {
 			editorState.startIndex += editorState.shownCount;
-			if (editorState.startIndex >= Object.keys(AllObjects).length) {
+			if (editorState.startIndex >= visibleKeys.length) {
 				editorState.startIndex = 0;
 			}
 		}}>&rarr;</Button
@@ -253,7 +253,7 @@
 		onclick={() => {
 			editorState.startIndex -= editorState.shownCount;
 			if (editorState.startIndex < 0) {
-				editorState.startIndex = Object.keys(AllObjects).length - editorState.shownCount;
+				editorState.startIndex = visibleKeys.length - editorState.shownCount;
 			}
 		}}>&larr;</Button
 	>
