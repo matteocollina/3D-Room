@@ -28,3 +28,4 @@ work in progress
 - allow uploading custom models
 - add shortcut to move object (-> make it placingObject)
 - add submenu for objects
+- add modal for first visit (without handle) -> create your own room, see my room

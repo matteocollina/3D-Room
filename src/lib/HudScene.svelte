@@ -4,11 +4,10 @@
 	import { ACESFilmicToneMapping } from 'three';
 	import {
 		applyTransformOfSelected,
-		editorState,
-		type RoomObjectKind
+		editorState
 	} from './state.svelte';
 	import { onMount } from 'svelte';
-	import { AllObjects } from './models';
+	import { AllObjects, type RoomObjectKind } from './models';
 
 	interactivity();
 

@@ -31,14 +31,12 @@
 
 	const outlineEffect = new OutlineEffect(scene, undefined, outlineEffectOptions);
 	$effect(() => {
-		console.log('changed', editorState.transformControls?.object);
 		if (!editorState.transformControls?.object) return;
 
 		setTimeout(() => {
 			outlineEffect.selection.clear();
 
 			editorState.transformControls?.object.traverse((child) => {
-				console.log(child);
 				if (child instanceof Mesh) {
 					outlineEffect.selection.add(child);
 				}

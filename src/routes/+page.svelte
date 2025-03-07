@@ -35,8 +35,15 @@
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 	import { AllObjects } from '$lib/models';
 
+
+	let saving = $state(false);
 	async function saveRoomToBluesky() {
-		if (!client.rpc || !client.profile) return;
+		if (!client.rpc || !client.profile) {
+			toast.error('Failed to save room, please log in first');
+			return;
+		}
+
+		saving = true;
 
 		applyTransformOfSelected();
 
@@ -91,6 +98,8 @@
 			console.error(e);
 			toast.error('Failed to save room, please try again');
 		}
+
+		saving = false;
 	}
 
 	let profile: ProfileViewDetailed | null = $state(null);
@@ -348,11 +357,10 @@
 				lastUsedColors={lastUsedColors}
 				bind:okhsv
 				hex={editorState.selectedObject.colors[0]}
-				onChange={() => {
+				onChange={(hex) => {
 					if (!editorState.selectedObject) return;
 
-					const rgb = okhsv_to_rgb(okhsv);
-					editorState.selectedObject.colors[0] = rgb_to_hex(rgb);
+					editorState.selectedObject.colors[0] = hex;
 					saveRoomToLocalStorage();
 				}}
 			/>
@@ -362,11 +370,10 @@
 					lastUsedColors={lastUsedColors}
 					bind:okhsv={okhsv2}
 					hex={editorState.selectedObject.colors[1]}
-					onChange={() => {
+					onChange={(hex) => {
 						if (!editorState.selectedObject) return;
 
-						const rgb = okhsv_to_rgb(okhsv2);
-						editorState.selectedObject.colors[1] = rgb_to_hex(rgb);
+						editorState.selectedObject.colors[1] = hex;
 						saveRoomToLocalStorage();
 					}}
 				/>
@@ -377,11 +384,10 @@
 					lastUsedColors={lastUsedColors}
 					bind:okhsv={okhsv3}
 					hex={editorState.selectedObject.colors[2]}
-					onChange={() => {
+					onChange={(hex) => {
 						if (!editorState.selectedObject) return;
 
-						const rgb = okhsv_to_rgb(okhsv3);
-						editorState.selectedObject.colors[2] = rgb_to_hex(rgb);
+						editorState.selectedObject.colors[2] = hex;
 						saveRoomToLocalStorage();
 					}}
 				/>
@@ -392,11 +398,10 @@
 					lastUsedColors={lastUsedColors}
 					bind:okhsv={okhsv4}
 					hex={editorState.selectedObject.colors[3]}
-					onChange={() => {
+					onChange={(hex) => {
 						if (!editorState.selectedObject) return;
 
-						const rgb = okhsv_to_rgb(okhsv4);
-						editorState.selectedObject.colors[3] = rgb_to_hex(rgb);
+						editorState.selectedObject.colors[3] = hex;
 						saveRoomToLocalStorage();
 					}}
 				/>
@@ -407,11 +412,10 @@
 					lastUsedColors={lastUsedColors}
 					bind:okhsv={okhsv5}
 					hex={editorState.selectedObject.colors[4]}
-					onChange={() => {
+					onChange={(hex) => {
 						if (!editorState.selectedObject) return;
 
-						const rgb = okhsv_to_rgb(okhsv5);
-						editorState.selectedObject.colors[4] = rgb_to_hex(rgb);
+						editorState.selectedObject.colors[4] = hex;
 						saveRoomToLocalStorage();
 					}}
 				/>

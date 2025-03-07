@@ -12,11 +12,9 @@
 	}: {
 		kind: RoomObjectKind;
 		selected?: boolean;
-		colors?: (number | string)[];
+		colors?: string[];
 		opacity?: number;
 	} & Props<THREE.Group> = $props();
-
-		console.log(kind);
 
 	let ObjectComponent = AllObjects[kind]?.component;
 </script>

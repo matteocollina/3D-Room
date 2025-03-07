@@ -4,54 +4,58 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 -->
 
 <script lang="ts">
-  import type * as THREE from 'three'
+	import type * as THREE from 'three';
 
-  import type { Snippet } from 'svelte'
-  import { T, type Props } from '@threlte/core'
-  import { useGltf } from '@threlte/extras'
+	import type { Snippet } from 'svelte';
+	import { T, type Props } from '@threlte/core';
+	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
+	import { editorState } from '$lib/state.svelte';
+	import { Spring } from 'svelte/motion';
 
-  let {
-    fallback,
-    error,
-    children,
-    ref = $bindable(),
-    colors,
-    opacity,
-    ...props
-  }: Props<THREE.Group> & {
-    ref?: THREE.Group
-    children?: Snippet<[{ ref: THREE.Group }]>
-    fallback?: Snippet
+	const { onPointerEnter, onPointerLeave } = useCursor();
+	let {
+		fallback,
+		error,
+		children,
+		ref = $bindable(),
+		colors,
+		opacity,
+		...props
+	}: Props<THREE.Group> & {
+		ref?: THREE.Group;
+		children?: Snippet<[{ ref: THREE.Group }]>;
+		fallback?: Snippet;
 		error?: Snippet<[{ error: Error }]>;
 		colors?: (number | string)[];
 		opacity?: number;
 	} = $props();
 
-  type GLTFResult = {
-    nodes: {
-      ['chairDesk(Clone)']: THREE.Mesh
-      Mesh_chair: THREE.Mesh
-      Mesh_chair_1: THREE.Mesh
-    }
-    materials: {
-      metalMedium: THREE.MeshStandardMaterial
-      carpet: THREE.MeshStandardMaterial
-    }
-  }
+	type GLTFResult = {
+		nodes: {
+			['chairDesk(Clone)']: THREE.Mesh;
+			Mesh_chair: THREE.Mesh;
+			Mesh_chair_1: THREE.Mesh;
+		};
+		materials: {
+			metalMedium: THREE.MeshStandardMaterial;
+			carpet: THREE.MeshStandardMaterial;
+		};
+	};
 
 	const gltf = useGltf<GLTFResult>(base + '/models/kenney-furniture-kit/chairDesk.glb');
+
+	let rotation = new Spring(0, {
+		stiffness: 0.1,
+		damping: 0.6,
+	});
 </script>
 
-<T.Group
-  bind:ref
-  dispose={false}
-  {...props}
->
-  {#await gltf}
-    {@render fallback?.()}
-  {:then gltf}
-    <T.Mesh
+<T.Group bind:ref dispose={false} {...props}>
+	{#await gltf}
+		{@render fallback?.()}
+	{:then gltf}
+		<T.Mesh
 			castShadow
 			receiveShadow
 			geometry={gltf.nodes['chairDesk(Clone)'].geometry}
@@ -59,10 +63,25 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 			material.color={colors?.[0] ?? gltf.materials.metalMedium.color}
 			material.opacity={opacity ?? gltf.materials.metalMedium.opacity}
 			material.transparent={opacity !== undefined}
-      position={[-0.16, 0.0, 0.16]}
+			position={[-0.16, 0.0, 0.16]}
 
+			onclick={() => {
+				if (editorState.isEditing) return;
+
+				rotation.target += 1 + Math.random() * 2;
+			}}
+
+			onpointerenter={() => {
+				if (editorState.isEditing) return;
+				onPointerEnter();
+			}}
+			onpointerleave={() => {
+				if (editorState.isEditing) return;
+				onPointerLeave();
+			}}
 		>
-			<T.Group position={[0.17, 0.19, -0.16]}>
+			<T.Group position={[0.17, 0.19, -0.16]} 
+			rotation={[0, rotation.current, 0]}>
 				<T.Mesh
 					castShadow
 					receiveShadow
@@ -85,7 +104,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 		</T.Mesh>
 	{:catch err}
 		{@render error?.({ error: err })}
-  {/await}
+	{/await}
 
-  {@render children?.({ ref })}
+	{@render children?.({ ref })}
 </T.Group>

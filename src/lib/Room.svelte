@@ -113,11 +113,9 @@
 			>
 				<RoomObject kind={object.kind} colors={object.colors} />
 			</TransformControls>
-		{:else}
+		{:else if editorState.isEditing}
 			<T.Group
 				onclick={() => {
-					if (!editorState.isEditing) return;
-					console.log('clicked');
 					applyTransformOfSelected();
 
 					editorState.selectedObject = null;
@@ -129,6 +127,8 @@
 			>
 				<RoomObject {...object} rotation={[0, object.rotation, 0]} />
 			</T.Group>
+		{:else}
+			<RoomObject {...object} rotation={[0, object.rotation, 0]} />
 		{/if}
 	{/each}
 
@@ -136,7 +136,7 @@
 		<RoomObject
 			{...editorState.placingObject}
 			rotation={[0, editorState.placingObject.rotation, 0]}
-			colors={[0xf1f1f1, 0xf1f1f1, 0xf1f1f1, 0xf1f1f1, 0xf1f1f1]}
+			colors={['#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1']}
 			opacity={0.8}
 		/>
 	{/if}
