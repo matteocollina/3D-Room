@@ -1,10 +1,9 @@
 <script lang="ts">
 	import * as THREE from 'three';
-	import { T, type Props } from '@threlte/core';
-	import Wall from './Wall.svelte';
+	import { T } from '@threlte/core';
 	import { applyTransformOfSelected, editorState, roomState, rotateObject } from './state.svelte';
 	import RoomObject from './RoomObject.svelte';
-	import { Grid, TransformControls } from '@threlte/extras';
+	import { Grid, RoundedBoxGeometry, TransformControls } from '@threlte/extras';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -21,27 +20,16 @@
 	let snap = 0.125 * 0.125;
 </script>
 
-<T.Group position.y={editorState.isEditing ? 0 : -1}>
-	<!-- walls on left and right -->
-	{#each Array.from({ length: roomState.size.x }, (_, i) => i) as x}
-		<Wall position={[-roomState.size.z / 2 - 0.05, 0.9, x - roomState.size.x / 2 + 0.5]} />
-	{/each}
+<T.Group>
+	<T.Mesh position={[-0.05, 1 - 0.099, -roomState.size.x / 2 - 0.1]} receiveShadow>
+		<RoundedBoxGeometry args={[roomState.size.z + 0.18, 2, 0.1]} radius={0.03} />
+		<T.MeshStandardMaterial color={roomState.wallColor} />
+	</T.Mesh>
 
-	<!-- walls on left and right -->
-	{#each Array.from({ length: roomState.size.z }, (_, i) => i) as z}
-		{#if z !== 0}
-			<Wall
-				position={[z - roomState.size.z / 2 + 0.5, 0.9, -roomState.size.x / 2 - 0.05]}
-				rotation.y={Math.PI / 2}
-			/>
-		{:else}
-			<Wall
-				position={[z - roomState.size.z / 2 + 0.5 - 0.05, 0.9, -roomState.size.x / 2 - 0.05]}
-				rotation.y={Math.PI / 2}
-				size={[0.1, 2, 1.1]}
-			/>
-		{/if}
-	{/each}
+	<T.Mesh position={[-roomState.size.z / 2 - 0.1, 1 - 0.099, -0.05]} receiveShadow>
+		<RoundedBoxGeometry args={[0.1, 2, roomState.size.x + 0.18]} radius={0.03} />
+		<T.MeshStandardMaterial color={roomState.wallColor} />
+	</T.Mesh>
 
 	{#if editorState.isEditing}
 		<Grid
@@ -52,7 +40,7 @@
 	{/if}
 
 	<T.Mesh
-		position={[0, -0.0502, 0]}
+		position={[-0.05, -0.0502, -0.05]}
 		onpointermove={(e: { point: { x: number; z: number } }) => {
 			let point = e.point;
 
@@ -88,7 +76,11 @@
 		}}
 		receiveShadow
 	>
-		<T.BoxGeometry args={[roomState.size.z, 0.1, roomState.size.x]} />
+		<RoundedBoxGeometry
+			args={[roomState.size.z + 0.15, 0.1, roomState.size.x + 0.15]}
+			radius={0.03}
+		/>
+		<!-- <T.BoxGeometry args={[roomState.size.z, 0.1, roomState.size.x]} /> -->
 		<T.MeshStandardMaterial color={roomState.floorColor} />
 	</T.Mesh>
 

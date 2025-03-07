@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { T, useThrelte } from '@threlte/core';
-	import { Environment, HUD, OrbitControls } from '@threlte/extras';
+	import { Environment, OrbitControls } from '@threlte/extras';
 	import { interactivity } from '@threlte/extras';
 	interactivity();
 
 	import Room from './Room.svelte';
 	import Outline from './Outline.svelte';
-	import HudScene from './HudScene.svelte';
-	import { editorState, roomState } from './state.svelte';
+	import { roomState } from './state.svelte';
 	import { onMount } from 'svelte';
 	import { ACESFilmicToneMapping } from 'three';
 	import { base } from '$app/paths';
@@ -42,7 +41,7 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[4, 4, 4]}
+	position={[3, 3, 3]}
 	oncreate={(ref) => {
 		ref.lookAt(0, 0, 0);
 	}}
@@ -64,11 +63,5 @@
 <T.AmbientLight intensity={0.1} />
 
 <Outline />
-
-{#if editorState.isEditing}
-	<HUD>
-		<HudScene />
-	</HUD>
-{/if}
 
 <Environment isBackground={false} url={base + '/env/workshop.jpg'} />

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
+	import { T, type Props } from '@threlte/core';
 	import { defaultColorImage, defaultColors } from './types';
+	import type { MeshStandardMaterial } from 'three';
 
 	let {
 		index,
@@ -8,14 +9,15 @@
 		opacity,
 		youtube,
 		image,
-		isImage
+		isImage,
+		...props
 	}: {
 		index?: number;
 		colors?: string[];
 		opacity?: number;
 		youtube?: string;
 		image?: string;
-	} = $props();
+	} & Props<MeshStandardMaterial> = $props();
 
 	function getColor() {
 		if (image) {
@@ -25,4 +27,9 @@
 	}
 </script>
 
-<T.MeshStandardMaterial color={getColor()} {opacity} transparent={opacity ? opacity < 1 : false} />
+<T.MeshStandardMaterial
+	color={getColor()}
+	{opacity}
+	transparent={opacity ? opacity < 1 : false}
+	{...props}
+/>

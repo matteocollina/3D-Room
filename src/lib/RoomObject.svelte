@@ -8,6 +8,7 @@
 		selected,
 		colors,
 		opacity,
+		scale,
 		...restProps
 	}: {
 		kind: RoomObjectKind;
@@ -27,6 +28,6 @@
 		{colors}
 		{opacity}
 		videoId={'https://www.youtube.com/watch?v=k1BneeJTDcU'}
-		scale={AllObjects[kind]?.scale ?? 1}
+		scale={scale ?? AllObjects[kind]?.scale ?? 1}
 	/>
 {/snippet}

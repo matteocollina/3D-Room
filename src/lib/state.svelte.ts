@@ -14,8 +14,8 @@ export const roomState: {
 
 	version: number;
 } = $state({
-	wallColor: '#f97316',
-	floorColor: '#fde047',
+	wallColor: '#f1f1f1',
+	floorColor: '#a1a1a1',
 
 	objects: [],
 
@@ -55,7 +55,7 @@ export type RoomObjectData = {
 };
 
 export function applyTransformOfSelected() {
-	if (editorState.selectedObject && editorState.transformControls) {
+	if (editorState.selectedObject && editorState.transformControls?.object) {
 		editorState.selectedObject.position = [
 			editorState.transformControls.object.position.x,
 			editorState.transformControls.object.position.y,

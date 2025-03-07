@@ -34,6 +34,7 @@
 	import Avatar from '$lib/components/base/avatar/Avatar.svelte';
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 	import { AllObjects, visibleKeys } from '$lib/models';
+	import Picker from './Picker.svelte';
 
 	let saving = $state(false);
 	async function saveRoomToBluesky() {
@@ -123,7 +124,7 @@
 		let availableObjects = new Set(Object.keys(AllObjects));
 
 		roomState.objects = room.room.objects.filter((object: RoomObjectData) =>
-			availableObjects.has(object.kind)
+			availableObjects.has(object.kind as string)
 		);
 		if (roomState.objects.length !== room.room.objects.length) {
 			console.warn('some objects were not found and removed!');
@@ -229,36 +230,33 @@
 		// return first 14 colors
 		return colors.slice(0, 14);
 	});
+
+	let selectCategoryModalOpen = $state(false);
 </script>
 
-<div class="fixed inset-0 h-[100dvh] w-screen">
+<div class="fixed inset-0 -z-20 h-[100dvh] w-screen">
 	<Canvas>
 		<Scene />
 	</Canvas>
 </div>
 
 {#if editorState.isEditing}
-	<Button
-		class="fixed right-4 bottom-4"
-		onclick={() => {
-			editorState.startIndex += editorState.shownCount;
-			if (editorState.startIndex >= visibleKeys.length) {
-				editorState.startIndex = 0;
-			}
-		}}>&rarr;</Button
-	>
+	<Button class="fixed bottom-4 left-4 -z-10" size="iconLg" onclick={() => {
+		console.log('clicked', selectCategoryModalOpen);
+		selectCategoryModalOpen = true;
+	}}>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="2.5"
+			stroke="currentColor"
+		>
+			<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+		</svg>
+	</Button>
 
-	<Button
-		class="fixed bottom-4 left-4"
-		onclick={() => {
-			editorState.startIndex -= editorState.shownCount;
-			if (editorState.startIndex < 0) {
-				editorState.startIndex = visibleKeys.length - editorState.shownCount;
-			}
-		}}>&larr;</Button
-	>
-
-	<div class="fixed top-4 left-4 flex flex-col items-start gap-2">
+	<div class="fixed top-4 left-4 flex flex-col items-start gap-2 -z-10">
 		<Button
 			size="iconLg"
 			onclick={() => {
@@ -425,7 +423,7 @@
 			{/if}
 		{/if}
 	</div>
-	<div class="fixed top-4 right-4 flex flex-col items-end gap-2">
+	<div class="fixed top-4 right-4 flex flex-col items-end gap-2 -z-10">
 		{#if !client || !client.isLoggedIn}
 			<Button
 				onclick={() => {
@@ -622,6 +620,7 @@
 						roomState.floorColor = '#a1a1a1';
 
 						saveRoomToLocalStorage();
+						roomSettingsModalState = false;
 					}}
 				>
 					Clear room
@@ -824,3 +823,5 @@
 		</Button>
 	</div>
 </Modal>
+
+<Picker bind:selectCategoryModalOpen />

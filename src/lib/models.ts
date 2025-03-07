@@ -95,7 +95,17 @@ import KayKitTableMedium from './models/kaykit-furniture-kit/table_medium.svelte
 import KayKitShelfBSmall from './models/kaykit-furniture-kit/shelf_b_small.svelte';
 import KayKitCabinetMedium from './models/kaykit-furniture-kit/cabinet_medium.svelte';
 
-export const AllObjects = {
+export const AllObjects: {
+	[key: string]: {
+		component: unknown;
+		colors: number;
+		visible: boolean;
+		placement?: 'floor' | 'wall';
+		image?: boolean;
+		scale?: number;
+		category?: string;
+	};
+} = {
 	'kenney-furniture-kit-table': {
 		component: Table,
 		colors: 1,
@@ -324,7 +334,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-rug_rectangle-pattern': {
 		component: KayKitRugRectanglePattern,
@@ -332,7 +343,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'carpets'
 	},
 	'kaykit-furniture-kit-table_small': {
 		component: KayKitTableSmall,
@@ -340,7 +352,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	},
 	'kaykit-furniture-kit-couch': {
 		component: KayKitCouch,
@@ -348,7 +361,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-armchair_pillows': {
 		component: KayKitArmchairPillows,
@@ -356,7 +370,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-chair_b_wood': {
 		component: KayKitChairBWood,
@@ -364,7 +379,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-shelf_b_big': {
 		component: KayKitShelfBBig,
@@ -372,7 +388,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-chair_desk_a': {
 		component: KayKitChairDeskA,
@@ -380,7 +397,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-mousepad': {
 		component: KayKitMousepad,
@@ -388,15 +406,17 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-pictureframe_standing_b': {
 		component: KayKitPictureframeStandingB,
 		colors: 1,
-		visible: true,
+		visible: false,
 		placement: 'floor',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-bed_double_b': {
 		component: KayKitBedDoubleB,
@@ -404,7 +424,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'beds'
 	},
 	'kaykit-furniture-kit-shelf_a_small': {
 		component: KayKitShelfASmall,
@@ -412,7 +433,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-mug_a': {
 		component: KayKitMugA,
@@ -420,7 +442,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-rug_rounded': {
 		component: KayKitRugRounded,
@@ -428,7 +451,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'carpets'
 	},
 	'kaykit-furniture-kit-mousepad_large': {
 		component: KayKitMousepadLarge,
@@ -436,7 +460,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-cabinet_small': {
 		component: KayKitCabinetSmall,
@@ -444,7 +469,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	},
 	'kaykit-furniture-kit-chair_a': {
 		component: KayKitChairA,
@@ -452,7 +478,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-chair_c': {
 		component: KayKitChairC,
@@ -460,7 +487,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-pictureframe_large_a': {
 		component: KayKitPictureframeLargeA,
@@ -468,7 +496,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-chair_a_wood': {
 		component: KayKitChairAWood,
@@ -476,7 +505,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-bed_single_b': {
 		component: KayKitBedSingleB,
@@ -484,7 +514,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'beds'
 	},
 	'kaykit-furniture-kit-chair_stool': {
 		component: KayKitChairStool,
@@ -492,7 +523,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-pictureframe_small_b': {
 		component: KayKitPictureframeSmallB,
@@ -500,7 +532,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-pillow': {
 		component: KayKitPillow,
@@ -508,7 +541,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-gameconsole_handheld': {
 		component: KayKitGameconsoleHandheld,
@@ -516,7 +550,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-bed_double_a': {
 		component: KayKitBedDoubleA,
@@ -524,15 +559,17 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'beds'
 	},
 	'kaykit-furniture-kit-pictureframe_standing_a': {
 		component: KayKitPictureframeStandingA,
 		colors: 1,
-		visible: true,
+		visible: false,
 		placement: 'floor',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-cactus_large': {
 		component: KayKitCactusLarge,
@@ -540,7 +577,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-couch_pillows': {
 		component: KayKitCouchPillows,
@@ -548,7 +586,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-pictureframe_medium': {
 		component: KayKitPictureframeMedium,
@@ -556,7 +595,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-armchair': {
 		component: KayKitArmchair,
@@ -564,7 +604,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-lamp_table': {
 		component: KayKitLampTable,
@@ -572,7 +613,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'lights'
 	},
 	'kaykit-furniture-kit-mouse': {
 		component: KayKitMouse,
@@ -580,7 +622,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-mug_b': {
 		component: KayKitMugB,
@@ -588,7 +631,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-book_single': {
 		component: KayKitBookSingle,
@@ -596,7 +640,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-chair_desk_b': {
 		component: KayKitChairDeskB,
@@ -604,7 +649,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-cactus_small': {
 		component: KayKitCactusSmall,
@@ -612,7 +658,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'miscellaneous'
 	},
 	'kaykit-furniture-kit-table_low': {
 		component: KayKitTableLow,
@@ -620,7 +667,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	},
 	'kaykit-furniture-kit-lamp_standing': {
 		component: KayKitLampStanding,
@@ -628,7 +676,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'lights'
 	},
 	'kaykit-furniture-kit-desk': {
 		component: KayKitDesk,
@@ -636,7 +685,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-rug_rectangle': {
 		component: KayKitRugRectangle,
@@ -644,7 +694,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'carpets'
 	},
 	'kaykit-furniture-kit-pictureframe_large_b': {
 		component: KayKitPictureframeLargeB,
@@ -652,7 +703,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-cup': {
 		component: KayKitCup,
@@ -660,7 +712,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-pictureframe_small_a': {
 		component: KayKitPictureframeSmallA,
@@ -668,7 +721,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-keyboard': {
 		component: KayKitKeyboard,
@@ -676,7 +730,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-bed_single_a': {
 		component: KayKitBedSingleA,
@@ -684,7 +739,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'beds'
 	},
 	'kaykit-furniture-kit-desk_large': {
 		component: KayKitDeskLarge,
@@ -692,7 +748,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-monitor': {
 		component: KayKitMonitor,
@@ -700,7 +757,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-lamp_desk': {
 		component: KayKitLampDesk,
@@ -708,7 +766,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'lights'
 	},
 	'kaykit-furniture-kit-chair_stool_wood': {
 		component: KayKitChairStoolWood,
@@ -716,7 +775,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-pictureframe_small_c': {
 		component: KayKitPictureframeSmallC,
@@ -724,7 +784,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: true,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-chair_b': {
 		component: KayKitChairB,
@@ -732,7 +793,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'chairs & sofas'
 	},
 	'kaykit-furniture-kit-shelf_a_big': {
 		component: KayKitShelfABig,
@@ -740,7 +802,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-table_medium_long': {
 		component: KayKitTableMediumLong,
@@ -748,7 +811,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	},
 	'kaykit-furniture-kit-cup_pencils': {
 		component: KayKitCupPencils,
@@ -756,7 +820,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'desk & accessories'
 	},
 	'kaykit-furniture-kit-table_medium': {
 		component: KayKitTableMedium,
@@ -764,7 +829,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	},
 	'kaykit-furniture-kit-shelf_b_small': {
 		component: KayKitShelfBSmall,
@@ -772,7 +838,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'wall',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'wall accessories'
 	},
 	'kaykit-furniture-kit-cabinet_medium': {
 		component: KayKitCabinetMedium,
@@ -780,7 +847,8 @@ export const AllObjects = {
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 0.4
+		scale: 0.4,
+		category: 'tables & cabinets'
 	}
 };
 
@@ -791,5 +859,8 @@ export const visibleObjects = Object.fromEntries(
 );
 export const visibleKeys = Object.keys(visibleObjects);
 
+export const objectCategories = Array.from(
+	new Set(Object.values(visibleObjects).map((object) => object.category))
+);
 
 export type RoomObjectKind = keyof typeof AllObjects;
