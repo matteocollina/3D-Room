@@ -15,8 +15,8 @@ Command: npx @threlte/gltf@3.0.0 static/models/loungeSofa.glb -t -s
 		fallback,
 		error,
 		children,
-    colors,
-    opacity,
+		colors,
+		opacity,
 		ref = $bindable(),
 		...props
 	}: Props<THREE.Group> & {
@@ -24,8 +24,8 @@ Command: npx @threlte/gltf@3.0.0 static/models/loungeSofa.glb -t -s
 		children?: Snippet<[{ ref: THREE.Group }]>;
 		fallback?: Snippet;
 		error?: Snippet<[{ error: Error }]>;
-    colors?: (number | string)[];
-    opacity?: number;
+		colors?: (number | string)[];
+		opacity?: number;
 	} = $props();
 
 	type GLTFResult = {
@@ -51,20 +51,20 @@ Command: npx @threlte/gltf@3.0.0 static/models/loungeSofa.glb -t -s
 			receiveShadow
 			geometry={gltf.nodes.Mesh_loungeSofa.geometry}
 			material={gltf.materials.carpet.clone()}
-      material.color={colors?.[0] ?? gltf.materials.carpet.color}
-      material.opacity={opacity ?? gltf.materials.carpet.opacity}
-      material.transparent={opacity !== undefined}
-      position={[-0.5, 0, 0.25]}
+			material.color={colors?.[0] ?? gltf.materials.carpet.color}
+			material.opacity={opacity ?? gltf.materials.carpet.opacity}
+			material.transparent={opacity !== undefined}
+			position={[-0.5, 0, 0.25]}
 		/>
 		<T.Mesh
 			castShadow
 			receiveShadow
 			geometry={gltf.nodes.Mesh_loungeSofa_1.geometry}
 			material={gltf.materials.wood.clone()}
-      material.color={colors?.[1] ?? gltf.materials.wood.color}
-      material.opacity={opacity ?? gltf.materials.wood.opacity}
-      material.transparent={opacity !== undefined}
-      position={[-0.5, 0, 0.25]}
+			material.color={colors?.[1] ?? gltf.materials.wood.color}
+			material.opacity={opacity ?? gltf.materials.wood.opacity}
+			material.transparent={opacity !== undefined}
+			position={[-0.5, 0, 0.25]}
 		/>
 	{:catch err}
 		{@render error?.({ error: err })}

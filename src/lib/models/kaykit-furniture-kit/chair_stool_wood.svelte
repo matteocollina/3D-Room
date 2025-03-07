@@ -4,61 +4,58 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/chair_stoo
 -->
 
 <script lang="ts">
-  import type * as THREE from 'three'
+	import type * as THREE from 'three';
 
-  import type { Snippet } from 'svelte'
-  import { T, type Props } from '@threlte/core'
-  import { useGltf, useSuspense } from '@threlte/extras'
+	import type { Snippet } from 'svelte';
+	import { T, type Props } from '@threlte/core';
+	import { useGltf, useSuspense } from '@threlte/extras';
 
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
 
-  let {
-    fallback,
-    error,
-    children,
-    ref = $bindable(),
-    colors,
-    opacity,
-    ...props
-  }: Props<THREE.Group> & {
-    ref?: THREE.Group
-    children?: Snippet<[{ ref: THREE.Group }]>
-    fallback?: Snippet
-    error?: Snippet<[{ error: Error }]>
-  } & ExtraRoomObjectProps = $props()
+	let {
+		fallback,
+		error,
+		children,
+		ref = $bindable(),
+		colors,
+		opacity,
+		...props
+	}: Props<THREE.Group> & {
+		ref?: THREE.Group;
+		children?: Snippet<[{ ref: THREE.Group }]>;
+		fallback?: Snippet;
+		error?: Snippet<[{ error: Error }]>;
+	} & ExtraRoomObjectProps = $props();
 
-  const suspend = useSuspense()
+	const suspend = useSuspense();
 
-  type GLTFResult = {
-    nodes: {
-      chair_stool_wood: THREE.Mesh
-    }
-    materials: {}
-  }
+	type GLTFResult = {
+		nodes: {
+			chair_stool_wood: THREE.Mesh;
+		};
+		materials: {};
+	};
 
-  const gltf = suspend(useGltf<GLTFResult>(base + '/models/kaykit-furniture-kit/chair_stool_wood.glb'))
+	const gltf = suspend(
+		useGltf<GLTFResult>(base + '/models/kaykit-furniture-kit/chair_stool_wood.glb')
+	);
 </script>
 
-<T.Group
-  bind:ref
-  dispose={false}
-  {...props}
->
-  {#await gltf}
-    {@render fallback?.()}
-  {:then gltf}
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={gltf.nodes.chair_stool_wood.geometry}
-      material={gltf.nodes.chair_stool_wood.material}
-     
-    />
-  {:catch err}
-    {@render error?.({ error: err })}
-  {/await}
+<T.Group bind:ref dispose={false} {...props}>
+	{#await gltf}
+		{@render fallback?.()}
+	{:then gltf}
+		<T.Mesh
+			castShadow
+			receiveShadow
+			geometry={gltf.nodes.chair_stool_wood.geometry}
+			material={gltf.nodes.chair_stool_wood.material}
+		/>
+	{:catch err}
+		{@render error?.({ error: err })}
+	{/await}
 
-  {@render children?.({ ref })}
+	{@render children?.({ ref })}
 </T.Group>

@@ -35,7 +35,6 @@
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 	import { AllObjects } from '$lib/models';
 
-
 	let saving = $state(false);
 	async function saveRoomToBluesky() {
 		if (!client.rpc || !client.profile) {
@@ -232,7 +231,7 @@
 	});
 </script>
 
-<div class="h-[100dvh] w-screen fixed inset-0">
+<div class="fixed inset-0 h-[100dvh] w-screen">
 	<Canvas>
 		<Scene />
 	</Canvas>
@@ -358,7 +357,7 @@
 			</div>
 
 			<ColorPickerPopover
-				lastUsedColors={lastUsedColors}
+				{lastUsedColors}
 				bind:okhsv
 				hex={editorState.selectedObject.colors[0]}
 				onChange={(hex) => {
@@ -371,7 +370,7 @@
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 1}
 				<ColorPickerPopover
-					lastUsedColors={lastUsedColors}
+					{lastUsedColors}
 					bind:okhsv={okhsv2}
 					hex={editorState.selectedObject.colors[1]}
 					onChange={(hex) => {
@@ -385,7 +384,7 @@
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 2}
 				<ColorPickerPopover
-					lastUsedColors={lastUsedColors}
+					{lastUsedColors}
 					bind:okhsv={okhsv3}
 					hex={editorState.selectedObject.colors[2]}
 					onChange={(hex) => {
@@ -399,7 +398,7 @@
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 3}
 				<ColorPickerPopover
-					lastUsedColors={lastUsedColors}
+					{lastUsedColors}
 					bind:okhsv={okhsv4}
 					hex={editorState.selectedObject.colors[3]}
 					onChange={(hex) => {
@@ -413,7 +412,7 @@
 
 			{#if AllObjects[editorState.selectedObject.kind].colors > 4}
 				<ColorPickerPopover
-					lastUsedColors={lastUsedColors}
+					{lastUsedColors}
 					bind:okhsv={okhsv5}
 					hex={editorState.selectedObject.colors[4]}
 					onChange={(hex) => {
@@ -557,7 +556,7 @@
 				Export as json
 			</Button>
 			<Subheading class="mt-2">Danger zone</Subheading>
-			<div class="mt-4 flex gap-2 flex-wrap">
+			<div class="mt-4 flex flex-wrap gap-2">
 				<Button
 					variant="red"
 					onclick={() => {

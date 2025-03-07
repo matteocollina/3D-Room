@@ -3,7 +3,10 @@
 	import { T, type Props } from '@threlte/core';
 	import { roomState } from './state.svelte';
 
-	let { size = [0.1, 2, 1], ...restProps }: Props<THREE.Mesh> & { size?: [number, number, number] } = $props();
+	let {
+		size = [0.1, 2, 1],
+		...restProps
+	}: Props<THREE.Mesh> & { size?: [number, number, number] } = $props();
 </script>
 
 <T.Mesh {...restProps} receiveShadow castShadow>

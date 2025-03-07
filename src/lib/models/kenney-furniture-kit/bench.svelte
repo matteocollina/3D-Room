@@ -4,22 +4,22 @@ Command: npx @threlte/gltf@3.0.0 static/models/bench.glb -t -s
 -->
 
 <script lang="ts">
-  import type * as THREE from 'three'
+	import type * as THREE from 'three';
 
-  import type { Snippet } from 'svelte'
-  import { T, type Props } from '@threlte/core'
-  import { useGltf } from '@threlte/extras'
+	import type { Snippet } from 'svelte';
+	import { T, type Props } from '@threlte/core';
+	import { useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
 
-  let {
-    fallback,
-    error,
-    children,
-    colors,
-    opacity,
-    ref = $bindable(),
-    ...props
-  }: Props<THREE.Group> & {
+	let {
+		fallback,
+		error,
+		children,
+		colors,
+		opacity,
+		ref = $bindable(),
+		...props
+	}: Props<THREE.Group> & {
 		ref?: THREE.Group;
 		children?: Snippet<[{ ref: THREE.Group }]>;
 		fallback?: Snippet;
@@ -28,27 +28,23 @@ Command: npx @threlte/gltf@3.0.0 static/models/bench.glb -t -s
 		opacity?: number;
 	} = $props();
 
-  type GLTFResult = {
-    nodes: {
-      ['bench(Clone)']: THREE.Mesh
-    }
-    materials: {
-      wood: THREE.MeshStandardMaterial
-    }
-  }
+	type GLTFResult = {
+		nodes: {
+			['bench(Clone)']: THREE.Mesh;
+		};
+		materials: {
+			wood: THREE.MeshStandardMaterial;
+		};
+	};
 
 	const gltf = useGltf<GLTFResult>(base + '/models/kenney-furniture-kit/bench.glb');
 </script>
 
-<T.Group
-  bind:ref
-  dispose={false}
-  {...props}
->
-  {#await gltf}
-    {@render fallback?.()}
-  {:then gltf}
-    <T.Mesh
+<T.Group bind:ref dispose={false} {...props}>
+	{#await gltf}
+		{@render fallback?.()}
+	{:then gltf}
+		<T.Mesh
 			castShadow
 			receiveShadow
 			geometry={gltf.nodes['bench(Clone)'].geometry}
@@ -59,8 +55,8 @@ Command: npx @threlte/gltf@3.0.0 static/models/bench.glb -t -s
 			position={[-0.2, 0, 0.1]}
 		/>
 	{:catch err}
-    {@render error?.({ error: err })}
-  {/await}
+		{@render error?.({ error: err })}
+	{/await}
 
-  {@render children?.({ ref })}
+	{@render children?.({ ref })}
 </T.Group>

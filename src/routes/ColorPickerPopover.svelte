@@ -46,7 +46,9 @@
 		/>
 
 		{#if lastUsedColors.length > 0}
-			<div class="text-base-800 dark:text-base-200 mx-4 mb-2 text-sm font-medium">Colors of last placed</div>
+			<div class="text-base-800 dark:text-base-200 mx-4 mb-2 text-sm font-medium">
+				Colors of last placed
+			</div>
 			<div class="mx-4 mb-2 flex gap-2">
 				<!-- last used colors -->
 				<div class="flex flex-wrap gap-2">

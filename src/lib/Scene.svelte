@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import { ACESFilmicToneMapping } from 'three';
 	import { base } from '$app/paths';
-	
+
 	const { renderer, scene } = useThrelte();
 
 	let lightIntensity = $state(0.4);
@@ -26,8 +26,12 @@
 		let lightModeLightIntensity = 2;
 		let darkModeLightIntensity = 0.3;
 
-		scene.environmentIntensity = window.matchMedia('(prefers-color-scheme: dark)').matches ? darkModeEnvIntensity : lightModeEnvIntensity;
-		lightIntensity = window.matchMedia('(prefers-color-scheme: dark)').matches ? darkModeLightIntensity : lightModeLightIntensity;
+		scene.environmentIntensity = window.matchMedia('(prefers-color-scheme: dark)').matches
+			? darkModeEnvIntensity
+			: lightModeEnvIntensity;
+		lightIntensity = window.matchMedia('(prefers-color-scheme: dark)').matches
+			? darkModeLightIntensity
+			: lightModeLightIntensity;
 
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
 			scene.environmentIntensity = e.matches ? darkModeEnvIntensity : lightModeEnvIntensity;
@@ -66,6 +70,5 @@
 		<HudScene />
 	</HUD>
 {/if}
-
 
 <Environment isBackground={false} url={base + '/env/workshop.jpg'} />

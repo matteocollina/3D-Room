@@ -57,7 +57,7 @@
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="-40 -40 680 620"
 				version="1.1"
-				class={['text-accent-600 dark:text-accent-400 size-9 -mt-1']}
+				class={['text-accent-600 dark:text-accent-400 -mt-1 size-9']}
 				aria-hidden="true"
 			>
 				<path
@@ -78,8 +78,6 @@
 				Sign up on bluesky
 			</a>, then come back here.
 		</div>
-
-
 
 		<div class="text-base-600 dark:text-base-400 text-xs leading-5">
 			Don't worry, your room will keep being here.

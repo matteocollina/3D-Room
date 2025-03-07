@@ -18,7 +18,6 @@
 		children?: Snippet<[{ ref: THREE.Group }]>;
 		playPause?: () => void;
 	} = $props();
-
 </script>
 
 <HTML transform {...props} bind:ref occlude="blending" scale={0.1} pointerEvents="none">

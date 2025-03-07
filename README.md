@@ -14,7 +14,6 @@ work in progress
 - ui from my own [ui-kit](https://github.com/flo-bit/ui-kit) which is based on [bits-ui](https://bits-ui.com/)
 - bluesky login made possible by [atcute](https://github.com/mary-ext/atcute)
 
-
 ### todo
 
 - show error message when room is not found

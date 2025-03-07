@@ -4,22 +4,22 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/cabinetBed.g
 -->
 
 <script lang="ts">
-  import type * as THREE from 'three'
+	import type * as THREE from 'three';
 
-  import type { Snippet } from 'svelte'
-  import { T, type Props } from '@threlte/core'
-  import { useGltf } from '@threlte/extras'
+	import type { Snippet } from 'svelte';
+	import { T, type Props } from '@threlte/core';
+	import { useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
 
-  let {
-    fallback,
-    error,
-    children,
-    ref = $bindable(),
-    colors,
-    opacity,
-    ...props
-  }: Props<THREE.Group> & {
+	let {
+		fallback,
+		error,
+		children,
+		ref = $bindable(),
+		colors,
+		opacity,
+		...props
+	}: Props<THREE.Group> & {
 		ref?: THREE.Group;
 		children?: Snippet<[{ ref: THREE.Group }]>;
 		fallback?: Snippet;
@@ -28,63 +28,59 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/cabinetBed.g
 		opacity?: number;
 	} = $props();
 
-  type GLTFResult = {
-    nodes: {
-      ['cabinetBed(Clone)']: THREE.Mesh
-      Mesh_door: THREE.Mesh
-      Mesh_door_1: THREE.Mesh
-    }
-    materials: {
-      wood: THREE.MeshStandardMaterial
-      metal: THREE.MeshStandardMaterial
-    }
-  }
+	type GLTFResult = {
+		nodes: {
+			['cabinetBed(Clone)']: THREE.Mesh;
+			Mesh_door: THREE.Mesh;
+			Mesh_door_1: THREE.Mesh;
+		};
+		materials: {
+			wood: THREE.MeshStandardMaterial;
+			metal: THREE.MeshStandardMaterial;
+		};
+	};
 
-  const gltf = useGltf<GLTFResult>(base + '/models/kenney-furniture-kit/cabinetBed.glb');
+	const gltf = useGltf<GLTFResult>(base + '/models/kenney-furniture-kit/cabinetBed.glb');
 </script>
 
-<T.Group
-  bind:ref
-  dispose={false}
-  {...props}
->
-  {#await gltf}
-    {@render fallback?.()}
-  {:then gltf}
-    <T.Mesh
-      castShadow
-      receiveShadow
-      geometry={gltf.nodes['cabinetBed(Clone)'].geometry}
-      material={gltf.materials.wood.clone()}
+<T.Group bind:ref dispose={false} {...props}>
+	{#await gltf}
+		{@render fallback?.()}
+	{:then gltf}
+		<T.Mesh
+			castShadow
+			receiveShadow
+			geometry={gltf.nodes['cabinetBed(Clone)'].geometry}
+			material={gltf.materials.wood.clone()}
 			material.color={colors?.[0] ?? gltf.materials.wood.color}
 			material.opacity={opacity ?? gltf.materials.wood.opacity}
 			material.transparent={opacity !== undefined}
-      position={[-0.12, 0.00, 0.1]}
-    >
-      <T.Group position={[0.02, 0.02, -0.02]}>
-        <T.Mesh
-          castShadow
-          receiveShadow
-          geometry={gltf.nodes.Mesh_door.geometry}
-          material={gltf.materials.wood.clone()}
+			position={[-0.12, 0.0, 0.1]}
+		>
+			<T.Group position={[0.02, 0.02, -0.02]}>
+				<T.Mesh
+					castShadow
+					receiveShadow
+					geometry={gltf.nodes.Mesh_door.geometry}
+					material={gltf.materials.wood.clone()}
 					material.color={colors?.[0] ?? gltf.materials.wood.color}
 					material.opacity={opacity ?? gltf.materials.wood.opacity}
 					material.transparent={opacity !== undefined}
-        />
-        <T.Mesh
-          castShadow
-          receiveShadow
-          geometry={gltf.nodes.Mesh_door_1.geometry}
-          material={gltf.materials.metal.clone()}
+				/>
+				<T.Mesh
+					castShadow
+					receiveShadow
+					geometry={gltf.nodes.Mesh_door_1.geometry}
+					material={gltf.materials.metal.clone()}
 					material.color={colors?.[1] ?? gltf.materials.metal.color}
 					material.opacity={opacity ?? gltf.materials.metal.opacity}
 					material.transparent={opacity !== undefined}
-        />
-      </T.Group>
-    </T.Mesh>
-  {:catch err}
-    {@render error?.({ error: err })}
-  {/await}
+				/>
+			</T.Group>
+		</T.Mesh>
+	{:catch err}
+		{@render error?.({ error: err })}
+	{/await}
 
-  {@render children?.({ ref })}
+	{@render children?.({ ref })}
 </T.Group>

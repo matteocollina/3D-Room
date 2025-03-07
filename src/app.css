@@ -2,7 +2,6 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-
 @theme {
 	--color-base-50: var(--color-stone-50);
 	--color-base-100: var(--color-stone-100);

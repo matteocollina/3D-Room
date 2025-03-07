@@ -4,14 +4,14 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chair.glb -t
 -->
 
 <script lang="ts">
-  import type * as THREE from 'three'
+	import type * as THREE from 'three';
 
-  import type { Snippet } from 'svelte'
-  import { T, type Props } from '@threlte/core'
-  import { useGltf } from '@threlte/extras'
+	import type { Snippet } from 'svelte';
+	import { T, type Props } from '@threlte/core';
+	import { useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
 
-  let {
+	let {
 		fallback,
 		error,
 		children,
@@ -19,8 +19,8 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chair.glb -t
 		opacity,
 		ref = $bindable(),
 		...props
-  }: Props<THREE.Group> & {
-    ref?: THREE.Group
+	}: Props<THREE.Group> & {
+		ref?: THREE.Group;
 		children?: Snippet<[{ ref: THREE.Group }]>;
 		fallback?: Snippet;
 		error?: Snippet<[{ error: Error }]>;
@@ -28,27 +28,23 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chair.glb -t
 		opacity?: number;
 	} = $props();
 
-  type GLTFResult = {
-    nodes: {
-      ['chair(Clone)']: THREE.Mesh
-    }
-    materials: {
-      wood: THREE.MeshStandardMaterial
-    }
-  }
+	type GLTFResult = {
+		nodes: {
+			['chair(Clone)']: THREE.Mesh;
+		};
+		materials: {
+			wood: THREE.MeshStandardMaterial;
+		};
+	};
 
 	const gltf = useGltf<GLTFResult>(base + '/models/kenney-furniture-kit/chair.glb');
 </script>
 
-<T.Group
-  bind:ref
-  dispose={false}
-  {...props}
->
-  {#await gltf}
-    {@render fallback?.()}
-  {:then gltf}
-    <T.Mesh
+<T.Group bind:ref dispose={false} {...props}>
+	{#await gltf}
+		{@render fallback?.()}
+	{:then gltf}
+		<T.Mesh
 			castShadow
 			receiveShadow
 			geometry={gltf.nodes['chair(Clone)'].geometry}
@@ -56,11 +52,11 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chair.glb -t
 			material.color={colors?.[0] ?? gltf.materials.wood.color}
 			material.opacity={opacity ?? gltf.materials.wood.opacity}
 			material.transparent={opacity !== undefined}
-      position={[-0.1, 0.0, 0.1]}
+			position={[-0.1, 0.0, 0.1]}
 		/>
 	{:catch err}
 		{@render error?.({ error: err })}
-  {/await}
+	{/await}
 
-  {@render children?.({ ref })}
+	{@render children?.({ ref })}
 </T.Group>

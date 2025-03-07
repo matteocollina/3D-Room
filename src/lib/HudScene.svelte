@@ -38,7 +38,10 @@
 	const visibleKeys = Object.keys(visibleObjects);
 
 	let objectsShown = $derived(
-		Object.values(visibleObjects).slice(editorState.startIndex, editorState.startIndex + editorState.shownCount)
+		Object.values(visibleObjects).slice(
+			editorState.startIndex,
+			editorState.startIndex + editorState.shownCount
+		)
 	);
 
 	$inspect(objectsShown);
@@ -98,8 +101,7 @@
 		>
 			<T.PlaneGeometry args={[1.5, 2]} />
 			<T.MeshBasicMaterial
-				opacity={editorState.placingObject?.kind ===
-				visibleKeys[i + editorState.startIndex]
+				opacity={editorState.placingObject?.kind === visibleKeys[i + editorState.startIndex]
 					? 0.5
 					: hoveredKey === visibleKeys[i + editorState.startIndex]
 						? 0.15

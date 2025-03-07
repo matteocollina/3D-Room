@@ -13,7 +13,7 @@
 <AccordionPrimitive.Content
 	bind:ref
 	class={cn(
-		'text-base-800 dark:text-base-200 overflow-hidden text-sm transition-all mt-2',
+		'text-base-800 dark:text-base-200 mt-2 overflow-hidden text-sm transition-all',
 		className
 	)}
 	{...restProps}

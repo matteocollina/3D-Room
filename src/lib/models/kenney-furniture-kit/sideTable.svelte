@@ -51,9 +51,9 @@ Command: npx @threlte/gltf@3.0.0 static/models/sideTable.glb -t -s
 			receiveShadow
 			geometry={gltf.nodes.Mesh_sideTable.geometry}
 			material={gltf.materials.wood.clone()}
-      material.color={colors?.[0] ?? gltf.materials.wood.color}
-      material.opacity={opacity ?? gltf.materials.wood.opacity}
-      material.transparent={opacity !== undefined}
+			material.color={colors?.[0] ?? gltf.materials.wood.color}
+			material.opacity={opacity ?? gltf.materials.wood.opacity}
+			material.transparent={opacity !== undefined}
 			position={[-0.25, 0, 0.1]}
 		/>
 		<T.Mesh
@@ -61,9 +61,9 @@ Command: npx @threlte/gltf@3.0.0 static/models/sideTable.glb -t -s
 			receiveShadow
 			geometry={gltf.nodes.Mesh_sideTable_1.geometry}
 			material={gltf.materials._defaultMat.clone()}
-      material.color={colors?.[1] ?? gltf.materials._defaultMat.color}
-      material.opacity={opacity ?? gltf.materials._defaultMat.opacity}
-      material.transparent={opacity !== undefined}
+			material.color={colors?.[1] ?? gltf.materials._defaultMat.color}
+			material.opacity={opacity ?? gltf.materials._defaultMat.opacity}
+			material.transparent={opacity !== undefined}
 			position={[-0.25, 0, 0.1]}
 		/>
 	{:catch err}

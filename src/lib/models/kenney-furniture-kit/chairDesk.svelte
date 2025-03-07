@@ -47,7 +47,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 
 	let rotation = new Spring(0, {
 		stiffness: 0.1,
-		damping: 0.6,
+		damping: 0.6
 	});
 </script>
 
@@ -64,13 +64,11 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 			material.opacity={opacity ?? gltf.materials.metalMedium.opacity}
 			material.transparent={opacity !== undefined}
 			position={[-0.16, 0.0, 0.16]}
-
 			onclick={() => {
 				if (editorState.isEditing) return;
 
 				rotation.target += 1 + Math.random() * 2;
 			}}
-
 			onpointerenter={() => {
 				if (editorState.isEditing) return;
 				onPointerEnter();
@@ -80,8 +78,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 				onPointerLeave();
 			}}
 		>
-			<T.Group position={[0.17, 0.19, -0.16]} 
-			rotation={[0, rotation.current, 0]}>
+			<T.Group position={[0.17, 0.19, -0.16]} rotation={[0, rotation.current, 0]}>
 				<T.Mesh
 					castShadow
 					receiveShadow

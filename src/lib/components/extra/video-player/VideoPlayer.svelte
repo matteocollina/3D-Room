@@ -9,7 +9,7 @@
 	}: { class?: string; id?: string; playPause?: () => void } = $props();
 
 	playPause = () => {
-		if(player?.paused) {
+		if (player?.paused) {
 			player?.play();
 		} else {
 			player?.pause();
@@ -26,12 +26,10 @@
 
 	$effect(() => {
 		if (!Plyr) return;
-		if(player) return;
+		if (player) return;
 
 		player = new Plyr('.js-player', {
-			controls: [
-				'play-large',
-			]
+			controls: ['play-large']
 		});
 
 		// set the video player to the id
