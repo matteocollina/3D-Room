@@ -106,14 +106,16 @@
 			</TransformControls>
 		{:else if editorState.isEditing}
 			<T.Group
-				onclick={() => {
+				onclick={(evt: { stopPropagation: () => void }) => {
+					evt.stopPropagation();
+
 					applyTransformOfSelected();
 
 					editorState.selectedObject = null;
 
 					setTimeout(() => {
 						editorState.selectedObject = object;
-					}, 100);
+					}, 0);
 				}}
 			>
 				<RoomObject {...object} rotation={[0, object.rotation, 0]} />

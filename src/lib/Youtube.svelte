@@ -7,21 +7,21 @@
 	import VideoPlayer from './components/extra/video-player/VideoPlayer.svelte';
 
 	let {
-		children,
 		ref = $bindable(),
 		videoId,
+		size = [270, 150],
 		playPause = $bindable(),
 		...props
 	}: Props<THREE.Group> & {
 		ref?: THREE.Group;
 		videoId?: string;
-		children?: Snippet<[{ ref: THREE.Group }]>;
+		size?: [number, number];
 		playPause?: () => void;
 	} = $props();
 </script>
 
-<HTML transform {...props} bind:ref occlude="blending" scale={0.1} pointerEvents="none">
-	<div class="h-[150px] w-[270px]">
+<HTML transform bind:ref occlude="blending" scale={0.1} pointerEvents="none" {...props}>
+	<div style="width: {size?.[0] ?? 270}px; height: {size?.[1] ?? 150}px;">
 		<VideoPlayer id={videoId} bind:playPause />
 	</div>
 </HTML>

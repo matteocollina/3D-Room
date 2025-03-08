@@ -104,6 +104,7 @@ export const AllObjects: {
 		image?: boolean;
 		scale?: number;
 		category?: string;
+		link?: boolean;
 	};
 } = {
 	'kenney-furniture-kit-table': {
@@ -756,7 +757,7 @@ export const AllObjects: {
 		colors: 1,
 		visible: true,
 		placement: 'floor',
-		image: true,
+		link: true,
 		scale: 0.4,
 		category: 'desk & accessories'
 	},

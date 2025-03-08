@@ -19,7 +19,6 @@ work in progress
 ### todo
 
 - show error message when room is not found
-- show television with youtube video
 - allow placing objects on walls
 - add more objects
 - add animations
@@ -32,3 +31,5 @@ work in progress
 - add tutorial
 - resize objects in picker to perfectly fit
 - move back button in picker above objects (z-index)
+- add sign out button
+- move preview button to main screen

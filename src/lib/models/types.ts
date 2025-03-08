@@ -1,7 +1,7 @@
 export type ExtraRoomObjectProps = {
 	colors?: string[];
 	opacity?: number;
-	youtube?: string;
+	link?: string;
 };
 
 export const defaultColorImage = '#000000';

@@ -41,7 +41,7 @@
 					outlineEffect.selection.add(child);
 				}
 			});
-		}, 100);
+		}, 0);
 
 		return () => {
 			outlineEffect.selection.clear();

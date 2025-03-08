@@ -52,6 +52,7 @@ export type RoomObjectData = {
 	rotation: number;
 	colors: string[];
 	placement: 'floor' | 'wallX' | 'wallZ';
+	link?: string;
 };
 
 export function applyTransformOfSelected() {

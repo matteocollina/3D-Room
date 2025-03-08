@@ -35,6 +35,7 @@
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 	import { AllObjects, visibleKeys } from '$lib/models';
 	import Picker from './Picker.svelte';
+	import { Input } from '$lib/components/base/input';
 
 	let saving = $state(false);
 	async function saveRoomToBluesky() {
@@ -232,6 +233,10 @@
 	});
 
 	let selectCategoryModalOpen = $state(false);
+
+	let linkModalState = $state(false);
+
+	let link = $state('');
 </script>
 
 <div class="fixed inset-0 -z-20 h-[100dvh] w-screen">
@@ -419,6 +424,21 @@
 						saveRoomToLocalStorage();
 					}}
 				/>
+			{/if}
+
+			{#if AllObjects[editorState.selectedObject.kind].link}
+				<Button
+					size="icon"
+					onclick={() => {
+						linkModalState = true;
+					}}
+					class="m-1"
+				>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+				  </svg>
+				  
+				</Button>
 			{/if}
 		{/if}
 	</div>
@@ -625,6 +645,19 @@
 					Clear room
 				</Button>
 			</div>
+		</div>
+	</Modal>
+
+	<Modal bind:open={linkModalState}>
+		<div class="flex flex-col gap-4">
+			<Subheading class="mb-4">Enter a youtube link:</Subheading>
+			<Input bind:value={link} placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+			<Button onclick={() => {
+				linkModalState = false;
+				if (!link || !editorState.selectedObject) return;
+
+				editorState.selectedObject.link = link;
+			}}>Save</Button>
 		</div>
 	</Modal>
 {:else if !loading}

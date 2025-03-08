@@ -8,11 +8,14 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 
 	import type { Snippet } from 'svelte';
 	import { T, type Props } from '@threlte/core';
-	import { useGltf, useSuspense } from '@threlte/extras';
+	import { useCursor, useGltf, useSuspense } from '@threlte/extras';
 
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
+	import Youtube from '$lib/Youtube.svelte';
+	import { editorState } from '$lib/state.svelte';
+	import { Spring } from 'svelte/motion';
 
 	let {
 		fallback,
@@ -21,6 +24,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 		ref = $bindable(),
 		colors,
 		opacity,
+		link,
 		image,
 		...props
 	}: Props<THREE.Group> & {
@@ -44,19 +48,55 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 	};
 
 	const gltf = suspend(useGltf<GLTFResult>(base + '/models/kaykit-furniture-kit/monitor.glb'));
+
+	let playPause: (() => void) | undefined = $state();
+
+	const { onPointerEnter, onPointerLeave } = useCursor();
+
+	let scale = new Spring(1.0, {
+		stiffness: 0.2,
+		damping: 0.3
+	});
 </script>
 
 <T.Group bind:ref dispose={false} {...props}>
 	{#await gltf}
 		{@render fallback?.()}
 	{:then gltf}
-		<T.Group>
+		<T.Group
+			onpointerenter={() => {
+				if (editorState.isEditing) return;
+				scale.target = 1.1;
+				onPointerEnter();
+			}}
+			onpointerleave={() => {
+				if (editorState.isEditing) return;
+				scale.target = 1.0;
+				onPointerLeave();
+			}}
+			scale={scale.current}
+		>
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube18237.geometry}
 				><RoomObjectMaterial index={0} {colors} {opacity} /></T.Mesh
 			>
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube18237_1.geometry}
-				><RoomObjectMaterial {image} {colors} {opacity} /></T.Mesh
+				><RoomObjectMaterial colors={['#000000']} index={0} {opacity} /></T.Mesh
 			>
+			{#if !editorState.isEditing && link}
+				<Youtube
+					onclick={(evt: { stopPropagation: () => void }) => {
+						if (editorState.isEditing) return;
+						evt.stopPropagation();
+
+						playPause?.();
+					}}
+					position={[0, 0.66, 0.15]}
+					rotation.x={-0.175}
+					videoId={link}
+					size={[270 * 2, 150 * 2]}
+					bind:playPause
+				/>
+			{/if}
 		</T.Group>
 	{:catch err}
 		{@render error?.({ error: err })}
