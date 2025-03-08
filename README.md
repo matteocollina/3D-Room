@@ -18,14 +18,10 @@ work in progress
 
 ### todo
 
-- allow placing objects on walls
 - add more objects
 - add animations
-- allow adding images
 - add a day/night cycle?
-- allow placing objects on other objects
 - allow uploading custom models
-- add shortcut to move object (-> make it placingObject)
 - add modal for first visit (without handle) -> create your own room, see my room
 - add tutorial
 - resize objects in picker to perfectly fit
