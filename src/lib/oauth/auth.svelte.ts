@@ -12,6 +12,16 @@ import { CredentialManager, XRPC } from '@atcute/client';
 import { metadata } from './const';
 import { AtpBaseClient } from '@atproto/api';
 import type { DidDocument } from '@atcute/client/utils/did';
+import {
+	applyTransformOfSelected,
+	editorState,
+	roomState,
+	type BlueskyBlob
+} from '$lib/state.svelte';
+import { toast } from 'svelte-sonner';
+import { modals } from '$lib/ui-state.svelte';
+import { getImage } from '$lib/images.svelte';
+import { trackEvent } from '$lib/analytics';
 
 export const client = $state({
 	agent: null as OAuthUserAgent | null,
@@ -211,17 +221,6 @@ const getPDS = async (did: string) => {
 };
 
 export async function getRoom({ did }: { did: string }) {
-	if (!agent) {
-		agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
-	}
-
-	// // get profile
-	// const { data } = await agent.com.atproto.sync.getRecord({
-	// 	did: did,
-	// 	collection: 'app.bsky.actor.profile',
-	// 	rkey: 'self'
-	// });
-
 	const pds = await getPDS(did);
 	const rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
 
@@ -235,7 +234,10 @@ export async function getRoom({ did }: { did: string }) {
 
 	// get profile
 	const profile = await getProfile({ did });
+	// @ts-expect-error data.value is not typed
+	data.value.roomState.did = did;
 
+	// @ts-expect-error data.value is not typed
 	return { room: data.value.roomState, profile: profile };
 }
 
@@ -255,4 +257,93 @@ export async function resolveHandle({ handle }: { handle: string }) {
 
 	const data = await agent.com.atproto.identity.resolveHandle({ handle });
 	return data.data.did;
+}
+
+export async function uploadImage(image: Blob) {
+	if (!client.profile) throw new Error('No profile');
+
+	console.log('uploading image', image);
+
+	// atcute version
+	const blobResponse = await client.rpc?.request({
+		type: 'post',
+		nsid: 'com.atproto.repo.uploadBlob',
+		params: {
+			repo: client.profile.did
+		},
+		data: image
+	});
+
+	return blobResponse?.data.blob as {
+		$type: 'blob';
+		ref: {
+			$link: string;
+		};
+		mimeType: string;
+		size: number;
+	};
+}
+
+export async function getImageBlobUrl({ did, link }: { did: string; link: string }) {
+	return `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${link}@jpeg`;
+}
+
+export async function saveRoomToBluesky() {
+	if (!client.rpc || !client.profile) {
+		throw new Error('Failed to save room, please log in first');
+	}
+
+	roomState.did = client.profile.did;
+
+	applyTransformOfSelected();
+
+	editorState.selectedObject = null;
+
+	try {
+		trackEvent('room_save_try');
+
+		const uploadedMap: Record<string, BlueskyBlob> = {};
+		// upload all images
+		for (const object of roomState.objects) {
+			if (typeof object.image !== 'string' || !object.image.startsWith('local:')) continue;
+
+			if (uploadedMap[object.image]) {
+				object.image = uploadedMap[object.image];
+				continue;
+			}
+			const name = object.image;
+			const imageDataUrl = await getImage(name.replace('local:', ''));
+			const blob = await fetch(imageDataUrl).then((res) => res.blob());
+			object.image = await uploadImage(blob);
+			uploadedMap[name] = object.image;
+		}
+
+		await client.rpc.call('com.atproto.repo.putRecord', {
+			data: {
+				collection: 'dev.flo-bit.room',
+				repo: client.profile.did,
+				rkey: 'self',
+				record: {
+					roomState: JSON.parse(
+						JSON.stringify({
+							wallColor: roomState.wallColor,
+							floorColor: roomState.floorColor,
+							objects: roomState.objects,
+							size: roomState.size,
+							id: roomState.id,
+							version: roomState.version
+						})
+					)
+				}
+			}
+		});
+
+		trackEvent('room_save_success');
+
+		modals.successModalState = true;
+	} catch (e) {
+		console.error(e);
+		trackEvent('room_save_error');
+		throw new Error('Failed to save room, please try again');
+	}
 }

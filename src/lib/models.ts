@@ -94,6 +94,7 @@ import KayKitCupPencils from './models/kaykit-furniture-kit/cup_pencils.svelte';
 import KayKitTableMedium from './models/kaykit-furniture-kit/table_medium.svelte';
 import KayKitShelfBSmall from './models/kaykit-furniture-kit/shelf_b_small.svelte';
 import KayKitCabinetMedium from './models/kaykit-furniture-kit/cabinet_medium.svelte';
+import Plant from './models/tiny-treats-bubbly-bathroom/plant.svelte';
 
 export const AllObjects: {
 	[key: string]: {
@@ -333,7 +334,7 @@ export const AllObjects: {
 		component: KayKitBookSet,
 		colors: 4,
 		visible: true,
-		placement: 'wall',
+		placement: 'floor',
 		image: false,
 		scale: 0.4,
 		category: 'miscellaneous'
@@ -413,7 +414,7 @@ export const AllObjects: {
 	'kaykit-furniture-kit-pictureframe_standing_b': {
 		component: KayKitPictureframeStandingB,
 		colors: 1,
-		visible: false,
+		visible: true,
 		placement: 'floor',
 		image: true,
 		scale: 0.4,
@@ -566,7 +567,7 @@ export const AllObjects: {
 	'kaykit-furniture-kit-pictureframe_standing_a': {
 		component: KayKitPictureframeStandingA,
 		colors: 1,
-		visible: false,
+		visible: true,
 		placement: 'floor',
 		image: true,
 		scale: 0.4,
@@ -639,7 +640,7 @@ export const AllObjects: {
 		component: KayKitBookSingle,
 		colors: 2,
 		visible: true,
-		placement: 'wall',
+		placement: 'floor',
 		image: false,
 		scale: 0.4,
 		category: 'miscellaneous'
@@ -850,12 +851,21 @@ export const AllObjects: {
 		image: false,
 		scale: 0.4,
 		category: 'tables & cabinets'
+	},
+	'tiny-treats-bubbly-bathroom-plant': {
+		component: Plant,
+		colors: 2,
+		visible: true,
+		placement: 'floor',
+		image: false,
+		scale: 0.4,
+		category: 'miscellaneous'
 	}
 };
 
 export const visibleObjects = Object.fromEntries(
 	Object.entries(AllObjects)
-		.filter(([, value]) => value.visible !== false && value.placement === 'floor')
+		.filter(([, value]) => value.visible !== false)
 		.sort((a, b) => a[0].localeCompare(b[0]))
 );
 export const visibleKeys = Object.keys(visibleObjects);

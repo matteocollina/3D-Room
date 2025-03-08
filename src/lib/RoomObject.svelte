@@ -9,12 +9,16 @@
 		colors,
 		opacity,
 		scale,
+		rotation,
+		placement,
 		...restProps
 	}: {
 		kind: RoomObjectKind;
 		selected?: boolean;
 		colors?: string[];
 		opacity?: number;
+		rotation?: number;
+		placement?: 'floor' | 'wallX' | 'wallZ';
 	} & Props<THREE.Group> = $props();
 
 	let ObjectComponent = AllObjects[kind]?.component;
@@ -27,7 +31,12 @@
 		{...restProps}
 		{colors}
 		{opacity}
-		videoId={'https://www.youtube.com/watch?v=k1BneeJTDcU'}
 		scale={scale ?? AllObjects[kind]?.scale ?? 1}
+		rotation={[
+			placement === 'wallX' ? (rotation ?? 0) : 0,
+			(placement === 'floor' ? (rotation ?? 0) : 0) + (placement === 'wallX' ? Math.PI / 2 : 0),
+			placement === 'wallZ' ? (rotation ?? 0) : 0
+		]}
+		{placement}
 	/>
 {/snippet}

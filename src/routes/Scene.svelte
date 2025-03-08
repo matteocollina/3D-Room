@@ -23,15 +23,16 @@
 <T.HemisphereLight args={[0xaaaaaa, 0x444444, 1]} />
 <T.DirectionalLight args={[0xffffff, 1]} position={[1, 1, 1]} />
 
-<RoomObject
-	onpointerenter={() => {
-		rotating = true;
-	}}
-	onpointerleave={() => {
-		rotating = false;
-	}}
-	{kind}
-	rotation={[0.5, rotation + 0.5, 0]}
-	scale={0.4}
-	colors={['#fbcfe8', '#f472b6', '#db2777', '#9d174d', '#500724']}
-/>
+<T.Group rotation={[0.5, rotation + 0.5, 0]}>
+	<RoomObject
+		onpointerenter={() => {
+			rotating = true;
+		}}
+		onpointerleave={() => {
+			rotating = false;
+		}}
+		{kind}
+		scale={0.4}
+		colors={['#fbcfe8', '#f472b6', '#db2777', '#9d174d', '#500724']}
+	/>
+</T.Group>

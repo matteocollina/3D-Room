@@ -8,7 +8,6 @@
 		colors,
 		opacity,
 		youtube,
-		image,
 		isImage,
 		...props
 	}: {
@@ -16,13 +15,9 @@
 		colors?: string[];
 		opacity?: number;
 		youtube?: string;
-		image?: string;
 	} & Props<MeshStandardMaterial> = $props();
 
 	function getColor() {
-		if (image) {
-			return defaultColorImage;
-		}
 		return colors?.[index ?? 0] ?? defaultColors[index ?? 0];
 	}
 </script>

@@ -1,5 +1,6 @@
 import type { TransformControls } from '@threlte/extras';
-import type { RoomObjectKind } from './models';
+import { AllObjects, type RoomObjectKind } from './models';
+import { trackEvent } from './analytics';
 
 export const currentVersion = 0;
 
@@ -13,6 +14,8 @@ export const roomState: {
 	id: number;
 
 	version: number;
+
+	did: string;
 } = $state({
 	wallColor: '#f1f1f1',
 	floorColor: '#a1a1a1',
@@ -23,7 +26,9 @@ export const roomState: {
 
 	id: 0,
 
-	version: currentVersion
+	version: currentVersion,
+
+	did: ''
 });
 
 export const editorState: {
@@ -46,6 +51,15 @@ export const editorState: {
 	isEditing: false
 });
 
+export type BlueskyBlob = {
+	$type: 'blob';
+	ref: {
+		$link: string;
+	};
+	mimeType: string;
+	size: number;
+};
+
 export type RoomObjectData = {
 	kind: RoomObjectKind;
 	position: [number, number, number];
@@ -53,6 +67,7 @@ export type RoomObjectData = {
 	colors: string[];
 	placement: 'floor' | 'wallX' | 'wallZ';
 	link?: string;
+	image?: string | BlueskyBlob;
 };
 
 export function applyTransformOfSelected() {
@@ -63,13 +78,21 @@ export function applyTransformOfSelected() {
 			editorState.transformControls.object.position.z
 		];
 
-		editorState.selectedObject.rotation = editorState.transformControls.object.rotation.y;
+		if (editorState.selectedObject.placement === 'wallX') {
+			editorState.selectedObject.rotation = editorState.transformControls.object.rotation.x;
+		} else if (editorState.selectedObject.placement === 'wallZ') {
+			editorState.selectedObject.rotation = editorState.transformControls.object.rotation.z;
+		} else {
+			editorState.selectedObject.rotation = editorState.transformControls.object.rotation.y;
+		}
 
 		saveRoomToLocalStorage();
 	}
 }
 
 export function saveRoomToLocalStorage() {
+	trackEvent('room_save_local', { count: roomState.objects.length });
+
 	localStorage.setItem('roomState', JSON.stringify(roomState));
 }
 
@@ -93,22 +116,25 @@ export function rotateObject(rotation: number) {
 }
 
 export function rotateRight() {
-	rotateObject(Math.PI / 6);
+	rotateObject(Math.PI / 8);
 }
 
 export function rotateLeft() {
-	rotateObject(-Math.PI / 6);
+	rotateObject(-Math.PI / 8);
 }
 
 export function tryLoadingRoomFromLocalStorage(otherWiseReset: boolean = false) {
 	const room = localStorage.getItem('roomState');
 	if (room) {
+		trackEvent('room_load_local', { count: roomState.objects.length });
+
 		const roomObject = JSON.parse(room);
 		roomState.floorColor = roomObject.floorColor;
 		roomState.wallColor = roomObject.wallColor;
 		roomState.objects = roomObject.objects;
 		roomState.size = roomObject.size;
 		roomState.id = roomObject.id ?? Math.random();
+		roomState.did = roomObject.did;
 	} else if (otherWiseReset) {
 		roomState.floorColor = '#a1a1a1';
 		roomState.wallColor = '#f1f1f1';
@@ -116,6 +142,7 @@ export function tryLoadingRoomFromLocalStorage(otherWiseReset: boolean = false) 
 		roomState.size = { x: 2, z: 3 };
 		roomState.id = Math.random();
 		roomState.version = currentVersion;
+		roomState.did = '';
 	}
 }
 
@@ -144,4 +171,12 @@ export function makeSelectedObjectPlacingObject() {
 		editorState.placingObject = editorState.selectedObject;
 		roomState.objects = roomState.objects.filter((object) => object !== editorState.selectedObject);
 	}
+}
+
+export function getPossiblePlacementForPlacingObject() {
+	if (!editorState.placingObject) return undefined;
+
+	const object = editorState.placingObject;
+
+	return AllObjects[object.kind]?.placement ?? 'floor';
 }

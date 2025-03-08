@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const rootFolder = './models/kaykit-furniture-kit/';
+const rootFolder = './models/tiny-treats-bubbly-bathroom/';
 
 function convertGLTFFiles(folder: string, serveFrom: string | undefined = undefined) {
 	const files = fs.readdirSync(folder, { withFileTypes: true });
@@ -32,4 +32,4 @@ function convertGLTFFiles(folder: string, serveFrom: string | undefined = undefi
 
 console.log('Starting conversion...');
 // Start the conversion process from the root folder
-convertGLTFFiles(rootFolder, base + '/models/kaykit-furniture-kit/');
+convertGLTFFiles(rootFolder, '');

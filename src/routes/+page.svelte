@@ -23,6 +23,8 @@
 
 	let loading = $state(true);
 
+	let db = $state<IDBDatabase | null>(null);
+
 	onMount(async () => {
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'x') {

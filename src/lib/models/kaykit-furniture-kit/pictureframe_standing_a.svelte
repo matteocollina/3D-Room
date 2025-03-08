@@ -13,6 +13,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
+	import Image from '$lib/Image.svelte';
 
 	let {
 		fallback,
@@ -56,9 +57,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube024.geometry}
 				><RoomObjectMaterial index={0} {colors} {opacity} /></T.Mesh
 			>
-			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube024_1.geometry}
-				><RoomObjectMaterial {image} {colors} {opacity} /></T.Mesh
-			>
+			<Image image={image} position={[0, 0.33, 0.05]} size={[270 * 0.5, 150 * 1.1]} rotation.x={-0.35} />
 		</T.Group>
 	{:catch err}
 		{@render error?.({ error: err })}

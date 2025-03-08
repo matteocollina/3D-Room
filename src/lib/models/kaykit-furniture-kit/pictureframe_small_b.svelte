@@ -13,6 +13,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
+	import Image from '$lib/Image.svelte';
 
 	let {
 		fallback,
@@ -34,8 +35,8 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 
 	type GLTFResult = {
 		nodes: {
-			Cube025: THREE.Mesh;
-			Cube025_1: THREE.Mesh;
+			Cube017: THREE.Mesh;
+			Cube017_1: THREE.Mesh;
 		};
 		materials: {
 			a: THREE.MeshStandardMaterial;
@@ -53,12 +54,11 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 		{@render fallback?.()}
 	{:then gltf}
 		<T.Group>
-			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube025.geometry}
+			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube017.geometry}
 				><RoomObjectMaterial index={0} {colors} {opacity} /></T.Mesh
 			>
-			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube025_1.geometry}
-				><RoomObjectMaterial {image} {colors} {opacity} /></T.Mesh
-			>
+			<Image image={image} position={[0, 0.0, 0.15]} size={[270 * 0.7, 150 * 0.6]} />
+
 		</T.Group>
 	{:catch err}
 		{@render error?.({ error: err })}

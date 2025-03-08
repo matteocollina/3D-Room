@@ -27,10 +27,12 @@
 	import { Heading, Subheading } from '$lib/components/base/heading';
 	import NumberInput from '$lib/components/base/number-input/NumberInput.svelte';
 	import { Input } from '$lib/components/base/input';
-	import { loadRoomFromBluesky, modals, saveRoomToBluesky, userInfo } from '$lib/ui-state.svelte';
+	import { loadRoomFromBluesky, modals, userInfo } from '$lib/ui-state.svelte';
 	import { blueskyLoginModalState } from '$lib/components/base/modal/BlueskyLoginModal.svelte';
 	import { toast } from 'svelte-sonner';
 	import Picker from './Picker.svelte';
+	import ImageSelector from './ImageSelector.svelte';
+	import { saveRoomToBluesky } from '$lib/oauth/auth.svelte';
 
 	let lastUsedColors = $derived.by(() => {
 		let colors = [];
@@ -297,6 +299,10 @@
 				</svg>
 			</Button>
 		{/if}
+
+		{#if AllObjects[editorState.selectedObject.kind].image}
+			<ImageSelector />
+		{/if}
 	{/if}
 </div>
 <div class="fixed top-4 right-4 -z-10 flex flex-col items-end gap-2">
@@ -323,7 +329,11 @@
 	{:else}
 		<Button
 			onclick={() => {
-				saveRoomToBluesky();
+				toast.promise(saveRoomToBluesky(), {
+					loading: 'Saving...',
+					success: 'Room saved to your profile',
+					error: 'Failed to save room, please try again'
+				});
 			}}>Save & Share</Button
 		>
 	{/if}

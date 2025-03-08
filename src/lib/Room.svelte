@@ -4,6 +4,7 @@
 	import {
 		applyTransformOfSelected,
 		editorState,
+		getPossiblePlacementForPlacingObject,
 		placeObject,
 		roomState,
 		type RoomObjectData
@@ -19,12 +20,74 @@
 </script>
 
 <T.Group position.y={-1}>
-	<T.Mesh position={[-0.05, 1 - 0.099, -roomState.size.x / 2 - 0.1]} receiveShadow>
+	<T.Mesh
+		onpointermove={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'wall') return;
+
+			e.stopPropagation();
+
+			if (editorState.placingObject) {
+				editorState.placingObject.placement = 'wallZ';
+				editorState.placingObject.position = [e.point.x, e.point.y + 1, e.point.z];
+			}
+		}}
+		onclick={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'wall') return;
+
+			e.stopPropagation();
+
+			if (editorState.placingObject) {
+				editorState.placingObject.placement = 'wallZ';
+				placeObject({ x: e.point.x, y: e.point.y + 1, z: e.point.z });
+			}
+		}}
+		position={[-0.05, 1 - 0.099, -roomState.size.x / 2 - 0.1]}
+		receiveShadow
+		castShadow
+		ondblclick={() => {
+			if (editorState.selectedObject) {
+				applyTransformOfSelected();
+
+				editorState.selectedObject = null;
+			}
+		}}
+	>
 		<RoundedBoxGeometry args={[roomState.size.z + 0.18, 2, 0.1]} radius={0.03} />
 		<T.MeshStandardMaterial color={roomState.wallColor} />
 	</T.Mesh>
 
-	<T.Mesh position={[-roomState.size.z / 2 - 0.1, 1 - 0.099, -0.05]} receiveShadow>
+	<T.Mesh
+		onpointermove={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'wall') return;
+
+			e.stopPropagation();
+
+			if (editorState.placingObject) {
+				editorState.placingObject.placement = 'wallX';
+				editorState.placingObject.position = [e.point.x, e.point.y + 1, e.point.z];
+			}
+		}}
+		onclick={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'wall') return;
+
+			e.stopPropagation();
+
+			if (editorState.placingObject) {
+				editorState.placingObject.placement = 'wallX';
+				placeObject({ x: e.point.x, y: e.point.y + 1, z: e.point.z });
+			}
+		}}
+		position={[-roomState.size.z / 2 - 0.1, 1 - 0.099, -0.05]}
+		receiveShadow
+		castShadow
+		ondblclick={() => {
+			if (editorState.selectedObject) {
+				applyTransformOfSelected();
+
+				editorState.selectedObject = null;
+			}
+		}}
+	>
 		<RoundedBoxGeometry args={[0.1, 2, roomState.size.x + 0.18]} radius={0.03} />
 		<T.MeshStandardMaterial color={roomState.wallColor} />
 	</T.Mesh>
@@ -40,13 +103,17 @@
 	<T.Mesh
 		position={[-0.05, -0.0502, -0.05]}
 		onpointermove={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'floor') return;
+
 			e.stopPropagation();
 
 			if (editorState.placingObject) {
-				editorState.placingObject.position = [e.point.x, 0, e.point.z];
+				editorState.placingObject.position = [e.point.x, e.point.y + 1, e.point.z];
 			}
 		}}
 		onclick={(e: PointerEvent) => {
+			if (getPossiblePlacementForPlacingObject() !== 'floor') return;
+
 			e.stopPropagation();
 
 			placeObject({ x: e.point.x, y: e.point.y + 1, z: e.point.z });
@@ -72,29 +139,37 @@
 		{#if editorState.selectedObject === object}
 			<TransformControls
 				bind:controls={editorState.transformControls}
-				rotationSnap={Math.PI / 2}
 				position={object.position}
-				rotation={[0, object.rotation, 0]}
+				showX={object.placement !== 'wallX'}
+				showZ={object.placement !== 'wallZ'}
+				rotation={[
+					object.placement === 'wallX' ? object.rotation : 0,
+					object.placement === 'floor' ? object.rotation : 0,
+					object.placement === 'wallZ' ? object.rotation : 0
+				]}
 				enableRotate={false}
 				onchange={(e) => {
 					if (!e.target || !e.target.object) return;
 
 					e.target.object.position.clamp(
-						new THREE.Vector3(-roomState.size.z / 2, 0, -roomState.size.x / 2),
-						new THREE.Vector3(roomState.size.z / 2, 2, roomState.size.x / 2)
+						new THREE.Vector3(-roomState.size.z / 2 - 0.1, 0, -roomState.size.x / 2 - 0.1),
+						new THREE.Vector3(roomState.size.z / 2 + 0.1, 2, roomState.size.x / 2 + 0.1)
 					);
 				}}
 			>
-				<RoomObject kind={object.kind} colors={object.colors} />
+				<RoomObject kind={object.kind} colors={object.colors} placement={object.placement} image={object.image} />
 			</TransformControls>
 		{:else if editorState.isEditing}
 			<T.Group
 				onclick={(evt: PointerEvent) => {
-					evt.stopPropagation();
 					if (editorState.placingObject) {
+						if (getPossiblePlacementForPlacingObject() !== 'floor') return;
+
+						evt.stopPropagation();
 						placeObject({ x: evt.point.x, y: evt.point.y + 1, z: evt.point.z });
 						return;
 					}
+					evt.stopPropagation();
 
 					applyTransformOfSelected();
 
@@ -105,24 +180,24 @@
 					}, 0);
 				}}
 				onpointermove={(e: PointerEvent) => {
-					e.stopPropagation();
-
 					if (editorState.placingObject) {
+						if (getPossiblePlacementForPlacingObject() !== 'floor') return;
+
 						editorState.placingObject.position = [e.point.x, e.point.y + 1, e.point.z];
+						e.stopPropagation();
 					}
 				}}
 			>
-				<RoomObject {...object} rotation={[0, object.rotation, 0]} />
+				<RoomObject {...object} />
 			</T.Group>
 		{:else}
-			<RoomObject {...object} rotation={[0, object.rotation, 0]} />
+			<RoomObject {...object} />
 		{/if}
 	{/each}
 
 	{#if editorState.placingObject}
 		<RoomObject
 			{...editorState.placingObject}
-			rotation={[0, editorState.placingObject.rotation, 0]}
 			colors={['#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1', '#f1f1f1']}
 			opacity={0.8}
 		/>
