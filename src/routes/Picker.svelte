@@ -65,7 +65,7 @@
 	}
 </script>
 
-<Modal open={selectCategoryModalOpen} class="z-[100]">
+<Modal bind:open={selectCategoryModalOpen} class="z-[100]">
 	<Subheading class="mb-4">Add some furniture:</Subheading>
 	<div class="grid grid-cols-2  gap-4">
 		{#each objectCategories as category, i}

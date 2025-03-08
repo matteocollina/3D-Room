@@ -242,7 +242,6 @@
 
 {#if editorState.isEditing}
 	<Button class="fixed bottom-4 left-4 -z-10" size="iconLg" onclick={() => {
-		console.log('clicked', selectCategoryModalOpen);
 		selectCategoryModalOpen = true;
 	}}>
 		<svg
@@ -824,4 +823,4 @@
 	</div>
 </Modal>
 
-<Picker bind:selectCategoryModalOpen />
+<Picker bind:selectCategoryModalOpen={selectCategoryModalOpen} />

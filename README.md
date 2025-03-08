@@ -28,5 +28,7 @@ work in progress
 - allow placing objects on other objects
 - allow uploading custom models
 - add shortcut to move object (-> make it placingObject)
-- add submenu for objects
 - add modal for first visit (without handle) -> create your own room, see my room
+- add tutorial
+- resize objects in picker to perfectly fit
+- move back button in picker above objects (z-index)
