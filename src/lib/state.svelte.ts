@@ -92,6 +92,14 @@ export function rotateObject(rotation: number) {
 	}
 }
 
+export function rotateRight() {
+	rotateObject(Math.PI / 6);
+}
+
+export function rotateLeft() {
+	rotateObject(-Math.PI / 6);
+}
+
 export function tryLoadingRoomFromLocalStorage(otherWiseReset: boolean = false) {
 	const room = localStorage.getItem('roomState');
 	if (room) {
@@ -108,5 +116,25 @@ export function tryLoadingRoomFromLocalStorage(otherWiseReset: boolean = false) 
 		roomState.size = { x: 2, z: 3 };
 		roomState.id = Math.random();
 		roomState.version = currentVersion;
+	}
+}
+
+export function deleteSelectedObject() {
+	roomState.objects = roomState.objects.filter((object) => object !== editorState.selectedObject);
+
+	editorState.selectedObject = null;
+
+	saveRoomToLocalStorage();
+}
+
+export function placeObject(point: { x: number; y: number; z: number }) {
+	if (editorState.placingObject) {
+		roomState.objects.push(editorState.placingObject);
+		editorState.placingObject.position = [point.x, 0, point.z];
+		editorState.selectedObject = editorState.placingObject;
+
+		editorState.placingObject = null;
+
+		saveRoomToLocalStorage();
 	}
 }

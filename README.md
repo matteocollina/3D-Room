@@ -18,7 +18,6 @@ work in progress
 
 ### todo
 
-- show error message when room is not found
 - allow placing objects on walls
 - add more objects
 - add animations
@@ -30,6 +29,11 @@ work in progress
 - add modal for first visit (without handle) -> create your own room, see my room
 - add tutorial
 - resize objects in picker to perfectly fit
-- move back button in picker above objects (z-index)
 - add sign out button
 - move preview button to main screen
+- add undo button
+
+### bugs
+
+- show error message when room is not found
+- fix moving with transform controls might select other object

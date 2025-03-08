@@ -1,22 +1,10 @@
 <script lang="ts">
 	import * as THREE from 'three';
 	import { T } from '@threlte/core';
-	import { applyTransformOfSelected, editorState, roomState, rotateObject } from './state.svelte';
+	import { applyTransformOfSelected, editorState, placeObject, roomState } from './state.svelte';
 	import RoomObject from './RoomObject.svelte';
 	import { Grid, RoundedBoxGeometry, TransformControls } from '@threlte/extras';
-	import { onMount } from 'svelte';
 
-	onMount(() => {
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'd' || e.key === 'ArrowRight') {
-				rotateObject(-rotation);
-			} else if (e.key === 'a' || e.key === 'ArrowLeft') {
-				rotateObject(rotation);
-			}
-		});
-	});
-
-	let rotation = Math.PI / 8;
 	let snap = 0.125 * 0.125;
 </script>
 
@@ -52,20 +40,16 @@
 				editorState.placingObject.position = [point.x, 0, point.z];
 			}
 		}}
-		onpointerdown={(e: { point: { x: number; z: number } }) => {
+		onclick={(e: { stopPropagation: () => void; point: { x: number; y: number; z: number } }) => {
+			e.stopPropagation();
+
 			let point = e.point;
 
 			// round to snap point
 			point.x = Math.round(point.x / snap) * snap;
 			point.z = Math.round(point.z / snap) * snap;
 
-			if (editorState.placingObject) {
-				roomState.objects.push(editorState.placingObject);
-				editorState.placingObject.position = [point.x, 0, point.z];
-				editorState.selectedObject = editorState.placingObject;
-
-				editorState.placingObject = null;
-			}
+			placeObject(point);
 		}}
 		ondblclick={() => {
 			if (editorState.selectedObject) {
@@ -84,7 +68,7 @@
 		<T.MeshStandardMaterial color={roomState.floorColor} />
 	</T.Mesh>
 
-	{#each roomState.objects as object}
+	{#each roomState.objects as object (object.kind + object.position[0].toFixed(2) + object.position[1].toFixed(2) + object.position[2].toFixed(2))}
 		{#if editorState.selectedObject === object}
 			<TransformControls
 				bind:controls={editorState.transformControls}
@@ -107,6 +91,8 @@
 		{:else if editorState.isEditing}
 			<T.Group
 				onclick={(evt: { stopPropagation: () => void }) => {
+					if(editorState.placingObject) return;
+
 					evt.stopPropagation();
 
 					applyTransformOfSelected();

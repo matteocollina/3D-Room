@@ -93,13 +93,13 @@
 {#key category}
 	<div
 		class={[
-			'bg-base-200 dark:bg-base-800 relative mx-2 my-4 h-full min-h-[80dvh] overscroll-y-none rounded-2xl p-4 sm:mx-20 md:mt-20',
+			'bg-base-100 dark:bg-base-900 isolate relative mx-2 my-4 h-full min-h-[80dvh] overscroll-y-none rounded-2xl p-4 sm:mx-20 md:mt-20',
 			open ? 'block' : 'hidden'
 		]}
 	>
 		<Button
 			size="iconLg"
-			class="absolute top-4 left-4"
+			class="absolute top-4 left-4 z-[100]"
 			onclick={() => {
 				open = false;
 				selectCategoryModalOpen = true;
@@ -121,14 +121,14 @@
 			{#each items as item, i}
 				<button
 					id="item"
-					class="hover:bg-base-100/20 dark:hover:bg-base-900/20 m-4 inline-block cursor-pointer rounded-2xl p-4 transition-all duration-300 hover:scale-105"
+					class="hover:bg-base-200/40 dark:hover:bg-base-800/40 m-4 inline-block cursor-pointer rounded-2xl p-4 transition-all duration-300 hover:scale-105"
 					onclick={() => {
 						addObject(item.kind as RoomObjectKind);
 						open = false;
 					}}
 				>
 					<div class="aspect-square" bind:this={item.dom}></div>
-					<div class="mt-2 text-[#888]">{humanReadableName(item.kind)}</div>
+					<div class="text-base-700 dark:text-base-300 text-sm">{humanReadableName(item.kind)}</div>
 				</button>
 			{/each}
 		</div>
