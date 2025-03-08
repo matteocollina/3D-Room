@@ -68,7 +68,7 @@
 		<T.MeshStandardMaterial color={roomState.floorColor} />
 	</T.Mesh>
 
-	{#each roomState.objects as object, index (object.kind + index.toString() + object.colors.join(''))}
+	{#each roomState.objects as object, index (object.kind + index.toString())}
 		{#if editorState.selectedObject === object}
 			<TransformControls
 				bind:controls={editorState.transformControls}
