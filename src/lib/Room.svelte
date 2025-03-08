@@ -20,7 +20,7 @@
 	let snap = 0.125 * 0.125;
 </script>
 
-<T.Group>
+<T.Group position.y={-1}>
 	<T.Mesh position={[-0.05, 1 - 0.099, -roomState.size.x / 2 - 0.1]} receiveShadow>
 		<RoundedBoxGeometry args={[roomState.size.z + 0.18, 2, 0.1]} radius={0.03} />
 		<T.MeshStandardMaterial color={roomState.wallColor} />
