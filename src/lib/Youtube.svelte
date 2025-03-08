@@ -21,7 +21,10 @@
 </script>
 
 <HTML transform bind:ref occlude="blending" scale={0.1} pointerEvents="none" {...props}>
-	<div style="width: {size?.[0] ?? 270}px; height: {size?.[1] ?? 150}px;" class="select-none touch-none">
+	<div
+		style="width: {size?.[0] ?? 270}px; height: {size?.[1] ?? 150}px;"
+		class="touch-none select-none"
+	>
 		<VideoPlayer id={videoId} bind:playPause />
 	</div>
 </HTML>

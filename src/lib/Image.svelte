@@ -30,15 +30,16 @@
 		}
 		return null;
 	});
-
 </script>
 
-<HTML transform bind:ref occlude="blending" scale={0.1} pointerEvents="none" {...props}>
-	<div style="width: {size?.[0] ?? 270}px; height: {size?.[1] ?? 150}px;" class="bg-black">
-		{#await myImage then myImage}
-			{#if myImage}
-				<img src={myImage} alt="" class="h-full w-full object-cover select-none touch-none" />
-			{/if}
-		{/await}
-	</div>
-</HTML>
+{#if image}
+	<HTML transform bind:ref occlude="blending" scale={0.1} pointerEvents="none" {...props}>
+		<div style="width: {size?.[0] ?? 270}px; height: {size?.[1] ?? 150}px;" class="bg-black">
+			{#await myImage then myImage}
+				{#if myImage}
+					<img src={myImage} alt="" class="h-full w-full touch-none object-cover select-none" />
+				{/if}
+			{/await}
+		</div>
+	</HTML>
+{/if}

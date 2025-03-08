@@ -15,7 +15,7 @@
 		if (target.files) {
 			for (const file of target.files) {
 				const compressedFile = await compressImage(file);
-				saveImage((new Date()).getTime().toString() + crypto.randomUUID(), compressedFile);
+				saveImage(new Date().getTime().toString() + crypto.randomUUID(), compressedFile);
 			}
 			loadImages();
 		}
@@ -93,22 +93,26 @@
 		});
 	}
 
-	let images = $state<{
-		name: string;
-		url: string;
-	}[]>([]);
+	let images = $state<
+		{
+			name: string;
+			url: string;
+		}[]
+	>([]);
 
 	let inputRef = $state<HTMLInputElement | null>(null);
 
 	async function loadImages() {
 		const names = await getAllImageNames();
 		console.log('Names:', names);
-		images = (await Promise.all(
-			names.map(async (name) => ({
-				name,
-				url: await getImage(name)
-			}))
-		)).sort((a, b) => b.name.localeCompare(a.name));
+		images = (
+			await Promise.all(
+				names.map(async (name) => ({
+					name,
+					url: await getImage(name)
+				}))
+			)
+		).sort((a, b) => b.name.localeCompare(a.name));
 	}
 
 	function handleDragOver(event: DragEvent) {
@@ -184,7 +188,7 @@
 	<div class="mt-4 grid grid-cols-3 gap-4">
 		{#each images as image}
 			<div
-				class="border-base-200 isolate dark:border-base-800 relative aspect-square rounded-2xl border object-cover"
+				class="border-base-200 dark:border-base-800 relative isolate aspect-square rounded-2xl border object-cover"
 			>
 				<img
 					src={image.url}
@@ -197,7 +201,7 @@
 						deleteImage(image.name);
 						loadImages();
 					}}
-					class="bg-accent-600/10 z-10 dark:bg-accent-400/10 text-accent-600 dark:text-accent-400 absolute -top-2 -left-2 flex size-6 cursor-pointer items-center justify-center rounded-full p-1 backdrop-blur-sm"
+					class="bg-accent-600/10 dark:bg-accent-400/10 text-accent-600 dark:text-accent-400 absolute -top-2 -left-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full p-1 backdrop-blur-sm"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -213,10 +217,7 @@
 					<span class="sr-only">Delete</span>
 				</button>
 
-				<button
-					onclick={() => handleSelectImage(image)}
-					class="absolute inset-0 cursor-pointer"
-				>
+				<button onclick={() => handleSelectImage(image)} class="absolute inset-0 cursor-pointer">
 					<span class="sr-only">select image</span>
 				</button>
 			</div>

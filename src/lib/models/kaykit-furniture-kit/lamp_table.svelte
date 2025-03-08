@@ -65,7 +65,13 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/lamp_table
 				><RoomObjectMaterial index={1} {colors} {opacity} /></T.Mesh
 			>
 			<T.Mesh geometry={gltf.nodes.Sphere001_2.geometry}
-				><RoomObjectMaterial emissive={colors?.[2]} emissiveIntensity={1} index={2} {colors} {opacity} /></T.Mesh
+				><RoomObjectMaterial
+					emissive={colors?.[2]}
+					emissiveIntensity={1}
+					index={2}
+					{colors}
+					{opacity}
+				/></T.Mesh
 			>
 
 			<T.PointLight position={[0, 0.4, 0]} color={colors?.[2]} intensity={1} />

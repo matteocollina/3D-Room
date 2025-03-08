@@ -157,7 +157,12 @@
 					);
 				}}
 			>
-				<RoomObject kind={object.kind} colors={object.colors} placement={object.placement} image={object.image} />
+				<RoomObject
+					kind={object.kind}
+					colors={object.colors}
+					placement={object.placement}
+					image={object.image}
+				/>
 			</TransformControls>
 		{:else if editorState.isEditing}
 			<T.Group

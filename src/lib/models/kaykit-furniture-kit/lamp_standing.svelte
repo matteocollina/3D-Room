@@ -55,13 +55,25 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/lamp_stand
 	{:then gltf}
 		<T.Group>
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Sphere002.geometry}
-				><RoomObjectMaterial index={0} {colors} opacity={0.95} emissive={colors?.[2]} emissiveIntensity={0.5} /></T.Mesh
+				><RoomObjectMaterial
+					index={0}
+					{colors}
+					opacity={0.95}
+					emissive={colors?.[2]}
+					emissiveIntensity={0.5}
+				/></T.Mesh
 			>
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Sphere002_1.geometry}
-				><RoomObjectMaterial  index={1} {colors} {opacity} /></T.Mesh
+				><RoomObjectMaterial index={1} {colors} {opacity} /></T.Mesh
 			>
 			<T.Mesh geometry={gltf.nodes.Sphere002_2.geometry}
-				><RoomObjectMaterial emissive={colors?.[2]} emissiveIntensity={1} index={2} {colors} {opacity} /></T.Mesh
+				><RoomObjectMaterial
+					emissive={colors?.[2]}
+					emissiveIntensity={1}
+					index={2}
+					{colors}
+					{opacity}
+				/></T.Mesh
 			>
 
 			<T.PointLight position={[0, 2, 0.0]} color={colors?.[2]} intensity={1} />

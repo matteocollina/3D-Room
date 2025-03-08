@@ -56,8 +56,6 @@
 	</Button>
 </div>
 
-
-
 <Modal bind:open={modals.infoModalState} class="text-base-900 dark:text-base-50">
 	<div>
 		This is an experimental web app for creating tiny 3d rooms (and sharing them on bluesky) built

@@ -57,7 +57,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube016.geometry}
 				><RoomObjectMaterial index={0} {colors} {opacity} /></T.Mesh
 			>
-			<Image image={image} position={[0, 0, 0.15]} size={[270 * 1.3, 150 * 2.6]} />
+			<Image {image} position={[0, 0, 0.15]} size={[270 * 1.3, 150 * 2.6]} />
 		</T.Group>
 	{:catch err}
 		{@render error?.({ error: err })}
