@@ -1,11 +1,21 @@
 <script lang="ts">
 	import * as THREE from 'three';
 	import { T } from '@threlte/core';
-	import { applyTransformOfSelected, editorState, placeObject, roomState } from './state.svelte';
+	import {
+		applyTransformOfSelected,
+		editorState,
+		placeObject,
+		roomState,
+		type RoomObjectData
+	} from './state.svelte';
 	import RoomObject from './RoomObject.svelte';
 	import { Grid, RoundedBoxGeometry, TransformControls } from '@threlte/extras';
 
-	let snap = 0.125 * 0.125;
+	type PointerEvent = {
+		stopPropagation: () => void;
+		point: { x: number; y: number; z: number };
+		normal: { x: number; y: number; z: number };
+	};
 </script>
 
 <T.Group position.y={-1}>
@@ -29,27 +39,17 @@
 
 	<T.Mesh
 		position={[-0.05, -0.0502, -0.05]}
-		onpointermove={(e: { point: { x: number; z: number } }) => {
-			let point = e.point;
-
-			// round to snap point
-			point.x = Math.round(point.x / snap) * snap;
-			point.z = Math.round(point.z / snap) * snap;
-
-			if (editorState.placingObject) {
-				editorState.placingObject.position = [point.x, 0, point.z];
-			}
-		}}
-		onclick={(e: { stopPropagation: () => void; point: { x: number; y: number; z: number } }) => {
+		onpointermove={(e: PointerEvent) => {
 			e.stopPropagation();
 
-			let point = e.point;
+			if (editorState.placingObject) {
+				editorState.placingObject.position = [e.point.x, 0, e.point.z];
+			}
+		}}
+		onclick={(e: PointerEvent) => {
+			e.stopPropagation();
 
-			// round to snap point
-			point.x = Math.round(point.x / snap) * snap;
-			point.z = Math.round(point.z / snap) * snap;
-
-			placeObject(point);
+			placeObject({ x: e.point.x, y: e.point.y + 1, z: e.point.z });
 		}}
 		ondblclick={() => {
 			if (editorState.selectedObject) {
@@ -68,11 +68,10 @@
 		<T.MeshStandardMaterial color={roomState.floorColor} />
 	</T.Mesh>
 
-	{#each roomState.objects as object (object.kind + object.position[0].toFixed(2) + object.position[1].toFixed(2) + object.position[2].toFixed(2))}
+	{#each roomState.objects as object, index (object.kind + index.toString() + object.colors.join(''))}
 		{#if editorState.selectedObject === object}
 			<TransformControls
 				bind:controls={editorState.transformControls}
-				translationSnap={snap}
 				rotationSnap={Math.PI / 2}
 				position={object.position}
 				rotation={[0, object.rotation, 0]}
@@ -90,10 +89,12 @@
 			</TransformControls>
 		{:else if editorState.isEditing}
 			<T.Group
-				onclick={(evt: { stopPropagation: () => void }) => {
-					if(editorState.placingObject) return;
-
+				onclick={(evt: PointerEvent) => {
 					evt.stopPropagation();
+					if (editorState.placingObject) {
+						placeObject({ x: evt.point.x, y: evt.point.y + 1, z: evt.point.z });
+						return;
+					}
 
 					applyTransformOfSelected();
 
@@ -102,6 +103,13 @@
 					setTimeout(() => {
 						editorState.selectedObject = object;
 					}, 0);
+				}}
+				onpointermove={(e: PointerEvent) => {
+					e.stopPropagation();
+
+					if (editorState.placingObject) {
+						editorState.placingObject.position = [e.point.x, e.point.y + 1, e.point.z];
+					}
 				}}
 			>
 				<RoomObject {...object} rotation={[0, object.rotation, 0]} />

@@ -3,11 +3,19 @@
 	import Scene from '$lib/Scene.svelte';
 	import { onMount } from 'svelte';
 	import { client } from '$lib/oauth/auth.svelte';
-	import { deleteSelectedObject, editorState, rotateLeft, rotateRight, tryLoadingRoomFromLocalStorage } from '$lib/state.svelte';
+	import {
+		applyTransformOfSelected,
+		deleteSelectedObject,
+		editorState,
+		makeSelectedObjectPlacingObject,
+		roomState,
+		rotateLeft,
+		rotateRight,
+		tryLoadingRoomFromLocalStorage
+	} from '$lib/state.svelte';
 	import { Button } from '$lib/components/base/button';
 	import Modal from '$lib/components/base/modal/Modal.svelte';
 	import Heading from '$lib/components/base/heading/Heading.svelte';
-	import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 
 	import EditorUi from './EditorUI.svelte';
 	import PreviewUi from './PreviewUI.svelte';
@@ -19,11 +27,37 @@
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'x') {
 				deleteSelectedObject();
+
+				if (editorState.placingObject) {
+					editorState.placingObject = null;
+				}
 			}
 			if (e.key === 'd' || e.key === 'ArrowRight') {
 				rotateRight();
 			} else if (e.key === 'a' || e.key === 'ArrowLeft') {
 				rotateLeft();
+			}
+
+			// escape
+			if (e.key === 'Escape') {
+				editorState.placingObject = null;
+
+				applyTransformOfSelected();
+				editorState.selectedObject = null;
+			}
+
+			if (e.key === 'g') {
+				makeSelectedObjectPlacingObject();
+			}
+
+			if (e.key === 'c') {
+				// duplicate selected object
+				if (editorState.selectedObject) {
+					editorState.placingObject = JSON.parse(JSON.stringify(editorState.selectedObject));
+
+					applyTransformOfSelected();
+					editorState.selectedObject = null;
+				}
 			}
 		});
 

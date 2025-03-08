@@ -29,7 +29,7 @@
 </script>
 
 <Popover.Root>
-	<Popover.Trigger class={cn('mt-2 ml-1 cursor-pointer')}>
+	<Popover.Trigger class={cn('mt-2 cursor-pointer')}>
 		<div
 			class="border-base-300 dark:border-base-700 z-10 size-8 rounded-full border"
 			style={`background-color: ${hex};`}

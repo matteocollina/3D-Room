@@ -53,7 +53,7 @@
 
 		setTimeout(() => {
 			editorState.selectedObject = null;
-		}, 100);
+		}, 0);
 
 		editorState.placingObject = {
 			kind: kind,
@@ -67,7 +67,7 @@
 
 <Modal bind:open={selectCategoryModalOpen} class="z-[100]">
 	<Subheading class="mb-4">Add some furniture:</Subheading>
-	<div class="grid grid-cols-2  gap-4">
+	<div class="grid grid-cols-2 gap-4">
 		{#each objectCategories as category, i}
 			<Button
 				onclick={() => {
@@ -93,7 +93,7 @@
 {#key category}
 	<div
 		class={[
-			'bg-base-100 dark:bg-base-900 isolate relative mx-2 my-4 h-full min-h-[80dvh] overscroll-y-none rounded-2xl p-4 sm:mx-20 md:mt-20',
+			'bg-base-100 dark:bg-base-900 relative isolate mx-2 my-4 h-full min-h-[80dvh] overscroll-y-none rounded-2xl p-4 sm:mx-20 md:mt-20',
 			open ? 'block' : 'hidden'
 		]}
 	>

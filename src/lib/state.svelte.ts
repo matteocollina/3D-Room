@@ -130,11 +130,18 @@ export function deleteSelectedObject() {
 export function placeObject(point: { x: number; y: number; z: number }) {
 	if (editorState.placingObject) {
 		roomState.objects.push(editorState.placingObject);
-		editorState.placingObject.position = [point.x, 0, point.z];
+		editorState.placingObject.position = [point.x, point.y, point.z];
 		editorState.selectedObject = editorState.placingObject;
 
 		editorState.placingObject = null;
 
 		saveRoomToLocalStorage();
+	}
+}
+
+export function makeSelectedObjectPlacingObject() {
+	if (editorState.selectedObject && !editorState.placingObject) {
+		editorState.placingObject = editorState.selectedObject;
+		roomState.objects = roomState.objects.filter((object) => object !== editorState.selectedObject);
 	}
 }
