@@ -97,6 +97,7 @@
 			gridSize={[roomState.size.z * 2, roomState.size.x * 2]}
 			scale={0.5}
 			sectionThickness={0}
+			name="grid"
 		/>
 	{/if}
 
