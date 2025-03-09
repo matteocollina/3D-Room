@@ -54,16 +54,6 @@
 	>
 		{client.profile?.handle == userInfo.handle ? 'Edit room' : 'Create room'}
 	</Button>
-
-	<Button
-		size="lg"
-		variant="secondary"
-		onclick={async () => {
-			document.dispatchEvent(new Event("exportSTL"));
-		}}
-	>
-		Export as stl
-	</Button>
 </div>
 
 <Modal bind:open={modals.infoModalState} class="text-base-900 dark:text-base-50">

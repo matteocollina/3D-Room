@@ -423,22 +423,34 @@
 				onchange={() => saveRoomToLocalStorage()}
 			/>
 		</div>
+		<Subheading>Export</Subheading>
 
-		<Button
-			class="mt-6"
-			variant="secondary"
-			onclick={async () => {
-				const json = JSON.stringify(roomState, null, 2);
-				const blob = new Blob([json], { type: 'application/json' });
-				const url = URL.createObjectURL(blob);
-				const a = document.createElement('a');
-				a.href = url;
-				a.download = 'room.json';
-				a.click();
-			}}
-		>
-			Export as json
-		</Button>
+		<div class="flex flex-wrap gap-2">
+			<Button
+				variant="secondary"
+				onclick={async () => {
+					const json = JSON.stringify(roomState, null, 2);
+					const blob = new Blob([json], { type: 'application/json' });
+					const url = URL.createObjectURL(blob);
+					const a = document.createElement('a');
+					a.href = url;
+					a.download = 'room.json';
+					a.click();
+				}}
+			>
+				Export as json
+			</Button>
+
+			<Button
+				variant="secondary"
+				onclick={async () => {
+					document.dispatchEvent(new Event('exportSTL'));
+				}}
+			>
+				Export as stl
+			</Button>
+		</div>
+
 		<Subheading class="mt-2">Danger zone</Subheading>
 		<div class="mt-4 flex flex-wrap gap-2">
 			<Button

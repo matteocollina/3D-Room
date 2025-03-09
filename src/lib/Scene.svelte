@@ -6,7 +6,7 @@
 
 	import Room from './Room.svelte';
 	import Outline from './Outline.svelte';
-	import { roomState } from './state.svelte';
+	import { applyTransformOfSelected, editorState, roomState } from './state.svelte';
 	import { onMount } from 'svelte';
 	import { ACESFilmicToneMapping } from 'three';
 	import { base } from '$app/paths';
@@ -42,8 +42,17 @@
 		document.addEventListener("exportSTL", exportSTL);
 	});
 	
-	function exportSTL() {
+	async function exportSTL() {
 		const exporter = new STLExporter();
+
+		// apply transform
+		applyTransformOfSelected();
+
+		editorState.selectedObject = null;
+		editorState.placingObject = null;
+
+		// wait 1 frame
+		await new Promise((resolve) => setTimeout(resolve, 1));
 
 		// Clone the scene to avoid modifying the original
 		const sceneCopy = scene.clone();
@@ -51,6 +60,12 @@
 		// Rotate the entire scene copy (convert from Y-up to Z-up)
 		sceneCopy.rotation.x = Math.PI / 2;
 		sceneCopy.updateMatrixWorld(true); // Apply the transformation
+
+		// Remove the grid from the scene
+		const grid = sceneCopy.getObjectByName('grid');
+		if(grid) {
+			grid.removeFromParent();
+		}
 
 		// Export the modified copy
 		const stlString = exporter.parse(sceneCopy);
