@@ -10,8 +10,8 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/televisionMo
 	import { T, type Props } from '@threlte/core';
 	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
-	import Youtube from '$lib/Youtube.svelte';
-	import { editorState } from '$lib/state.svelte';
+	import Youtube from '$lib/room/Youtube.svelte';
+	import { editorState } from '$lib/room/state.svelte';
 
 	let {
 		fallback,

@@ -17,10 +17,9 @@ import {
 	editorState,
 	roomState,
 	type BlueskyBlob
-} from '$lib/state.svelte';
-import { toast } from 'svelte-sonner';
-import { modals } from '$lib/ui-state.svelte';
-import { getImage } from '$lib/images.svelte';
+} from '$lib/room/state.svelte';
+import { modals } from '$lib/room/ui-state.svelte';
+import { getImage } from '$lib/room/images.svelte';
 import { trackEvent } from '$lib/analytics';
 
 export const client = $state({

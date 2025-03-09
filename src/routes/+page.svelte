@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas } from '@threlte/core';
-	import Scene from '$lib/Scene.svelte';
+	import Scene from '$lib/room/Scene.svelte';
 	import { onMount } from 'svelte';
 	import { client } from '$lib/oauth/auth.svelte';
 	import {
@@ -8,18 +8,17 @@
 		deleteSelectedObject,
 		editorState,
 		makeSelectedObjectPlacingObject,
-		roomState,
 		rotateLeft,
 		rotateRight,
 		tryLoadingRoomFromLocalStorage
-	} from '$lib/state.svelte';
+	} from '$lib/room/state.svelte';
 	import { Button } from '$lib/components/base/button';
 	import Modal from '$lib/components/base/modal/Modal.svelte';
 	import Heading from '$lib/components/base/heading/Heading.svelte';
 
 	import EditorUi from './EditorUI.svelte';
 	import PreviewUi from './PreviewUI.svelte';
-	import { loadRoomFromBluesky, modals, userInfo } from '$lib/ui-state.svelte';
+	import { loadRoomFromBluesky, modals, userInfo } from '$lib/room/ui-state.svelte';
 
 	let loading = $state(true);
 

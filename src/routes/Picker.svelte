@@ -2,10 +2,10 @@
 	import { Canvas } from '@threlte/core';
 	import { View } from '@threlte/extras';
 	import Scene from './Scene.svelte';
-	import { objectCategories, visibleObjects, type RoomObjectKind } from '$lib/models';
+	import { objectCategories, visibleObjects, type RoomObjectKind } from '$lib/room/models';
 	import Button from '$lib/components/base/button/Button.svelte';
 	import Modal from '$lib/components/base/modal/Modal.svelte';
-	import { applyTransformOfSelected, editorState } from '$lib/state.svelte';
+	import { applyTransformOfSelected, editorState } from '$lib/room/state.svelte';
 	import Subheading from '$lib/components/base/heading/Subheading.svelte';
 
 	let items: { kind: string; dom: HTMLElement | undefined }[] = $state([]);

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PostData } from '../';
+	import type { PostData } from '..';
 	import External from './External.svelte';
 	import Images from './Images.svelte';
 	import Video from './Video.svelte';

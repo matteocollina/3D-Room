@@ -5,8 +5,8 @@
 	import { Heading } from '$lib/components/base/heading';
 	import Modal from '$lib/components/base/modal/Modal.svelte';
 	import { client } from '$lib/oauth';
-	import { editorState, tryLoadingRoomFromLocalStorage } from '$lib/state.svelte';
-	import { modals, userInfo } from '$lib/ui-state.svelte';
+	import { editorState, tryLoadingRoomFromLocalStorage } from '$lib/room/state.svelte';
+	import { modals, userInfo } from '$lib/room/ui-state.svelte';
 </script>
 
 <div class="pointer-events-none fixed top-8 right-4 left-4 flex items-center justify-center gap-2">

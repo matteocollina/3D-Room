@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { deleteImage, getAllImageNames, getImage, openDB, saveImage } from '$lib/images.svelte';
+	import { deleteImage, getAllImageNames, getImage, openDB, saveImage } from '$lib/room/images.svelte';
 	import { onMount } from 'svelte';
 	import * as Popover from '$lib/components/base/popover';
 	import { cn } from '$lib/utils';
-	import { editorState } from '$lib/state.svelte';
+	import { editorState } from '$lib/room/state.svelte';
 	import { buttonVariants } from '$lib/components/base/button';
-	import { uploadImage } from '$lib/oauth/auth.svelte';
 
 	// Open the IndexedDB on component mount
 	onMount(async () => {

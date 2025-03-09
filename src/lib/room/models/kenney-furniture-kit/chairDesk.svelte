@@ -10,7 +10,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 	import { T, type Props } from '@threlte/core';
 	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
-	import { editorState } from '$lib/state.svelte';
+	import { editorState } from '$lib/room/state.svelte';
 	import { Spring } from 'svelte/motion';
 
 	const { onPointerEnter, onPointerLeave } = useCursor();

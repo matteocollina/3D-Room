@@ -3,8 +3,7 @@
 	import { HTML } from '@threlte/extras';
 	import type * as THREE from 'three';
 	import { getImage } from './images.svelte';
-	import { userInfo } from './ui-state.svelte';
-	import { getImageBlobUrl } from './oauth/auth.svelte';
+	import { getImageBlobUrl } from '$lib/oauth/auth.svelte';
 	import { roomState } from './state.svelte';
 
 	let {

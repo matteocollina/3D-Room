@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/base/button';
-	import { AllObjects } from '$lib/models';
+	import { AllObjects } from '$lib/room/models';
 	import { client } from '$lib/oauth';
 	import {
 		applyTransformOfSelected,
@@ -11,7 +11,7 @@
 		rotateLeft,
 		rotateRight,
 		saveRoomToLocalStorage
-	} from '$lib/state.svelte';
+	} from '$lib/room/state.svelte';
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 
 	import * as Popover from '$lib/components/base/popover';
@@ -27,7 +27,7 @@
 	import { Heading, Subheading } from '$lib/components/base/heading';
 	import NumberInput from '$lib/components/base/number-input/NumberInput.svelte';
 	import { Input } from '$lib/components/base/input';
-	import { loadRoomFromBluesky, modals, userInfo } from '$lib/ui-state.svelte';
+	import { loadRoomFromBluesky, modals, userInfo } from '$lib/room/ui-state.svelte';
 	import { blueskyLoginModalState } from '$lib/components/base/modal/BlueskyLoginModal.svelte';
 	import { toast } from 'svelte-sonner';
 	import Picker from './Picker.svelte';

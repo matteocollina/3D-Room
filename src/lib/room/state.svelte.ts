@@ -1,6 +1,6 @@
 import type { TransformControls } from '@threlte/extras';
 import { AllObjects, type RoomObjectKind } from './models';
-import { trackEvent } from './analytics';
+import { trackEvent } from '$lib/analytics';
 
 export const currentVersion = 0;
 

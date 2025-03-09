@@ -1,7 +1,7 @@
 <script lang="ts">
-	import RoomObject from '$lib/RoomObject.svelte';
+	import RoomObject from '$lib/room/RoomObject.svelte';
 	import { T, useTask } from '@threlte/core';
-	import { interactivity } from '@threlte/extras';
+	import { Align, interactivity } from '@threlte/extras';
 
 	interactivity();
 	let { kind } = $props();

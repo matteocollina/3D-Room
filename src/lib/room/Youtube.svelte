@@ -4,7 +4,7 @@
 	import { HTML } from '@threlte/extras';
 	import type { Snippet } from 'svelte';
 	import type * as THREE from 'three';
-	import VideoPlayer from './components/extra/video-player/VideoPlayer.svelte';
+	import VideoPlayer from '$lib/components/extra/video-player/VideoPlayer.svelte';
 
 	let {
 		ref = $bindable(),

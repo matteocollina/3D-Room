@@ -8,7 +8,6 @@
 		rgb_to_hex,
 		rgb_to_okhsv
 	} from '$lib/components/extra/color-picker/color';
-	import { editorState } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 
 	let {

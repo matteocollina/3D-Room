@@ -1,6 +1,6 @@
-import { trackEvent } from './analytics';
+import { trackEvent } from '$lib/analytics';
 import { AllObjects } from './models';
-import { getRoom, resolveHandle } from './oauth/auth.svelte';
+import { getRoom, resolveHandle } from '$lib/oauth/auth.svelte';
 import { roomState, type RoomObjectData } from './state.svelte';
 import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 

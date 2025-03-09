@@ -13,8 +13,8 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
-	import Youtube from '$lib/Youtube.svelte';
-	import { editorState } from '$lib/state.svelte';
+	import Youtube from '$lib/room/Youtube.svelte';
+	import { editorState } from '$lib/room/state.svelte';
 	import { Spring } from 'svelte/motion';
 
 	let {
