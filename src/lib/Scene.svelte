@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 	import { ACESFilmicToneMapping } from 'three';
 	import { base } from '$app/paths';
+	import { STLExporter } from 'three/examples/jsm/Addons.js';
 
 	const { renderer, scene } = useThrelte();
 
@@ -36,7 +37,30 @@
 			scene.environmentIntensity = e.matches ? darkModeEnvIntensity : lightModeEnvIntensity;
 			lightIntensity = e.matches ? darkModeLightIntensity : lightModeLightIntensity;
 		});
+
+		// Listen for export event
+		document.addEventListener("exportSTL", exportSTL);
 	});
+	
+	function exportSTL() {
+		const exporter = new STLExporter();
+
+		// Clone the scene to avoid modifying the original
+		const sceneCopy = scene.clone();
+
+		// Rotate the entire scene copy (convert from Y-up to Z-up)
+		sceneCopy.rotation.x = Math.PI / 2;
+		sceneCopy.updateMatrixWorld(true); // Apply the transformation
+
+		// Export the modified copy
+		const stlString = exporter.parse(sceneCopy);
+		const blob = new Blob([stlString], { type: "application/sla" });
+		const link = document.createElement("a");
+		link.href = URL.createObjectURL(blob);
+		link.download = "room.stl";
+		link.click();
+	}
+
 </script>
 
 <T.PerspectiveCamera
