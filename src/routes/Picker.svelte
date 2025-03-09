@@ -29,6 +29,7 @@
 	function humanReadableName(key: string): string {
 		// Remove a common prefix if present (adjust if your keys differ)
 		let name = key.replace(/^kaykit-furniture-kit-/, '');
+		name = name.replace(/^tiny-treats-bubbly-bathroom-/, '');
 		// Replace underscores and dashes with spaces
 		name = name.replace(/[-_]+/g, ' ');
 		// Capitalize the first letter of each word

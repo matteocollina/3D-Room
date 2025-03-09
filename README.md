@@ -32,3 +32,4 @@ work in progress
 
 - show error message when room is not found
 - fix moving with transform controls might select other object
+- <HTML /> bug in safari ^^
