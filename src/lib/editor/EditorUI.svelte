@@ -456,7 +456,7 @@
 			<NumberInput
 				bind:value={roomState.size.x}
 				min={1}
-				max={8}
+				max={3}
 				onchange={() => saveRoomToLocalStorage()}
 			/>
 			<span class="text-accent-700 dark:text-accent-300">
@@ -474,7 +474,7 @@
 			<NumberInput
 				bind:value={roomState.size.z}
 				min={1}
-				max={8}
+				max={3}
 				onchange={() => saveRoomToLocalStorage()}
 			/>
 		</div>
