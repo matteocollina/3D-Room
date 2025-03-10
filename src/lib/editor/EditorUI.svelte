@@ -2,16 +2,7 @@
 	import { Button } from '$lib/components/base/button';
 	import { AllObjects } from '$lib/room/models';
 	import { client } from '$lib/oauth';
-	import {
-		applyTransformOfSelected,
-		deleteSelectedObject,
-		editorState,
-		makeSelectedObjectPlacingObject,
-		roomState,
-		rotateLeft,
-		rotateRight,
-		saveRoomToLocalStorage
-	} from '$lib/room/state.svelte';
+	import { roomState } from '$lib/room/state.svelte';
 	import ColorPickerPopover from './ColorPickerPopover.svelte';
 
 	import * as Popover from '$lib/components/base/popover';
@@ -27,12 +18,23 @@
 	import { Heading, Subheading } from '$lib/components/base/heading';
 	import NumberInput from '$lib/components/base/number-input/NumberInput.svelte';
 	import { Input } from '$lib/components/base/input';
-	import { loadRoomFromBluesky, modals, userInfo } from '$lib/room/ui-state.svelte';
+	import { modals } from '$lib/room/ui-state.svelte';
 	import { blueskyLoginModalState } from '$lib/components/base/modal/BlueskyLoginModal.svelte';
 	import { toast } from 'svelte-sonner';
-	import Picker from './Picker.svelte';
+	import Picker from './ObjectPicker.svelte';
 	import ImageSelector from './ImageSelector.svelte';
 	import { saveRoomToBluesky } from '$lib/oauth/auth.svelte';
+	import { onMount } from 'svelte';
+	import { loadRoomFromBluesky } from '$lib/room/bluesky';
+	import {
+		editorState,
+		saveRoomToLocalStorage,
+		deleteSelectedObject,
+		rotateRight,
+		rotateLeft,
+		applyTransformOfSelected,
+		makeSelectedObjectPlacingObject
+	} from './editorState.svelte';
 
 	let lastUsedColors = $derived.by(() => {
 		let colors = [];
@@ -75,6 +77,59 @@
 		okhsv_wall = rgb_to_okhsv(hex_to_rgb(roomState.wallColor));
 		okhsv_floor = rgb_to_okhsv(hex_to_rgb(roomState.floorColor));
 	});
+
+	onMount(() => {
+		window.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	});
+
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === 'x') {
+			deleteSelectedObject();
+
+			if (editorState.placingObject) {
+				editorState.placingObject = null;
+			}
+		}
+		if (e.key === 'd' || e.key === 'ArrowRight') {
+			rotateRight();
+		} else if (e.key === 'a' || e.key === 'ArrowLeft') {
+			rotateLeft();
+		}
+
+		// escape
+		if (e.key === 'Escape') {
+			editorState.placingObject = null;
+
+			applyTransformOfSelected();
+			editorState.selectedObject = null;
+		}
+
+		if (e.key === 'g') {
+			makeSelectedObjectPlacingObject();
+		}
+
+		if (e.key === 'c') {
+			// duplicate selected object
+			if (editorState.selectedObject) {
+				editorState.placingObject = JSON.parse(JSON.stringify(editorState.selectedObject));
+
+				applyTransformOfSelected();
+				editorState.selectedObject = null;
+			}
+		}
+	}
+
+	async function saveRoom() {
+		applyTransformOfSelected();
+
+		editorState.selectedObject = null;
+
+		return saveRoomToBluesky(roomState);
+	}
 </script>
 
 <Button
@@ -329,7 +384,7 @@
 	{:else}
 		<Button
 			onclick={() => {
-				toast.promise(saveRoomToBluesky(), {
+				toast.promise(saveRoom(), {
 					loading: 'Saving...',
 					success: 'Room saved to your profile',
 					error: 'Failed to save room, please try again'
@@ -387,8 +442,8 @@
 			onclick={() => {
 				applyTransformOfSelected();
 				editorState.selectedObject = null;
-				userInfo.handle = client.profile?.handle ?? '';
-				userInfo.profile = client.profile;
+				// @ts-ignore
+				roomState.profile = client.profile;
 				editorState.isEditing = false;
 				modals.roomSettingsModalState = false;
 			}}

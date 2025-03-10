@@ -10,8 +10,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/televisionMo
 	import { T, type Props } from '@threlte/core';
 	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
-	import Youtube from '$lib/room/Youtube.svelte';
-	import { editorState } from '$lib/room/state.svelte';
+	import Youtube from '$lib/room/models/Youtube.svelte';
 
 	let {
 		fallback,
@@ -54,20 +53,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/televisionMo
 	{#await gltf}
 		{@render fallback?.()}
 	{:then gltf}
-		<T.Group
-			onclick={() => {
-				if (editorState.isEditing) return;
-				playPause?.();
-			}}
-			onpointerenter={() => {
-				if (editorState.isEditing) return;
-				onPointerEnter();
-			}}
-			onpointerleave={() => {
-				if (editorState.isEditing) return;
-				onPointerLeave();
-			}}
-		>
+		<T.Group>
 			<T.Mesh
 				castShadow
 				receiveShadow
@@ -77,7 +63,7 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/televisionMo
 				material.opacity={opacity ?? gltf.materials.metalDark.opacity}
 				material.transparent={opacity !== undefined}
 			/>
-			{#if !videoId || editorState.isEditing}
+			{#if !videoId}
 				<T.Mesh
 					castShadow
 					receiveShadow

@@ -12,12 +12,7 @@ import { CredentialManager, XRPC } from '@atcute/client';
 import { metadata } from './const';
 import { AtpBaseClient } from '@atproto/api';
 import type { DidDocument } from '@atcute/client/utils/did';
-import {
-	applyTransformOfSelected,
-	editorState,
-	roomState,
-	type BlueskyBlob
-} from '$lib/room/state.svelte';
+import { type BlueskyBlob, type RoomStateType } from '$lib/room/state.svelte';
 import { modals } from '$lib/room/ui-state.svelte';
 import { getImage } from '$lib/room/images.svelte';
 import { trackEvent } from '$lib/analytics';
@@ -219,7 +214,7 @@ const getPDS = async (did: string) => {
 	});
 };
 
-export async function getRoom({ did }: { did: string }) {
+export async function getRoom({ did }: { did: string }): Promise<RoomStateType> {
 	const pds = await getPDS(did);
 	const rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
 
@@ -233,11 +228,12 @@ export async function getRoom({ did }: { did: string }) {
 
 	// get profile
 	const profile = await getProfile({ did });
-	// @ts-expect-error data.value is not typed
-	data.value.roomState.did = did;
 
 	// @ts-expect-error data.value is not typed
-	return { room: data.value.roomState, profile: profile };
+	const room = data.value.roomState as RoomStateType;
+	room.profile = profile;
+
+	return room;
 }
 
 export async function getProfile({ did }: { did: string }) {
@@ -260,8 +256,6 @@ export async function resolveHandle({ handle }: { handle: string }) {
 
 export async function uploadImage(image: Blob) {
 	if (!client.profile) throw new Error('No profile');
-
-	console.log('uploading image', image);
 
 	// atcute version
 	const blobResponse = await client.rpc?.request({
@@ -287,16 +281,10 @@ export async function getImageBlobUrl({ did, link }: { did: string; link: string
 	return `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${link}@jpeg`;
 }
 
-export async function saveRoomToBluesky() {
+export async function saveRoomToBluesky(roomState: RoomStateType) {
 	if (!client.rpc || !client.profile) {
 		throw new Error('Failed to save room, please log in first');
 	}
-
-	roomState.did = client.profile.did;
-
-	applyTransformOfSelected();
-
-	editorState.selectedObject = null;
 
 	try {
 		trackEvent('room_save_try');

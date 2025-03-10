@@ -8,7 +8,7 @@
 		OutlineEffect,
 		RenderPass
 	} from 'postprocessing';
-	import { editorState } from './state.svelte';
+	import { editorState } from '$lib/editor/editorState.svelte';
 
 	const { scene, renderer, camera, size, autoRender, renderStage } = useThrelte();
 

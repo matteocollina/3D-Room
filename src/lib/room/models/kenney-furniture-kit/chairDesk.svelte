@@ -10,7 +10,6 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 	import { T, type Props } from '@threlte/core';
 	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
-	import { editorState } from '$lib/room/state.svelte';
 	import { Spring } from 'svelte/motion';
 
 	const { onPointerEnter, onPointerLeave } = useCursor();
@@ -64,19 +63,6 @@ Command: npx @threlte/gltf@3.0.0 static/models/kenney-furniture-kit/chairDesk.gl
 			material.opacity={opacity ?? gltf.materials.metalMedium.opacity}
 			material.transparent={opacity !== undefined}
 			position={[-0.16, 0.0, 0.16]}
-			onclick={() => {
-				if (editorState.isEditing) return;
-
-				rotation.target += 1 + Math.random() * 2;
-			}}
-			onpointerenter={() => {
-				if (editorState.isEditing) return;
-				onPointerEnter();
-			}}
-			onpointerleave={() => {
-				if (editorState.isEditing) return;
-				onPointerLeave();
-			}}
 		>
 			<T.Group position={[0.17, 0.19, -0.16]} rotation={[0, rotation.current, 0]}>
 				<T.Mesh

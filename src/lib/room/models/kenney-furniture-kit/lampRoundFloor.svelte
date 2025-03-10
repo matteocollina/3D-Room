@@ -10,7 +10,6 @@ Command: npx @threlte/gltf@3.0.0 static/models/lampRoundFloor.glb -t -s
 	import { T, type Props } from '@threlte/core';
 	import { useCursor, useGltf } from '@threlte/extras';
 	import { base } from '$app/paths';
-	import { editorState } from '$lib/room/state.svelte';
 
 	const { onPointerEnter, onPointerLeave } = useCursor();
 
@@ -52,18 +51,6 @@ Command: npx @threlte/gltf@3.0.0 static/models/lampRoundFloor.glb -t -s
 		{@render fallback?.()}
 	{:then gltf}
 		<T.Group
-			onclick={() => {
-				if (editorState.isEditing) return;
-				lampOn = !lampOn;
-			}}
-			onpointerenter={() => {
-				if (editorState.isEditing) return;
-				onPointerEnter();
-			}}
-			onpointerleave={() => {
-				if (editorState.isEditing) return;
-				onPointerLeave();
-			}}
 		>
 			<T.Mesh
 				castShadow

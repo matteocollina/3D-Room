@@ -1,16 +1,18 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { T, useThrelte } from '@threlte/core';
 	import { Environment, OrbitControls } from '@threlte/extras';
 	import { interactivity } from '@threlte/extras';
-	interactivity();
+	import { ACESFilmicToneMapping } from 'three';
+	import { STLExporter } from 'three/examples/jsm/Addons.js';
 
 	import Room from './Room.svelte';
 	import Outline from './Outline.svelte';
-	import { applyTransformOfSelected, editorState, roomState } from './state.svelte';
-	import { onMount } from 'svelte';
-	import { ACESFilmicToneMapping } from 'three';
-	import { base } from '$app/paths';
-	import { STLExporter } from 'three/examples/jsm/Addons.js';
+	import EditingRoom from './EditingRoom.svelte';
+	import { roomState } from './state.svelte';
+	import { applyTransformOfSelected, editorState } from '$lib/editor/editorState.svelte';
+	interactivity();
 
 	const { renderer, scene } = useThrelte();
 
@@ -39,9 +41,9 @@
 		});
 
 		// Listen for export event
-		document.addEventListener("exportSTL", exportSTL);
+		document.addEventListener('exportSTL', exportSTL);
 	});
-	
+
 	async function exportSTL() {
 		const exporter = new STLExporter();
 
@@ -63,19 +65,18 @@
 
 		// Remove the grid from the scene
 		const grid = sceneCopy.getObjectByName('grid');
-		if(grid) {
+		if (grid) {
 			grid.removeFromParent();
 		}
 
 		// Export the modified copy
 		const stlString = exporter.parse(sceneCopy);
-		const blob = new Blob([stlString], { type: "application/sla" });
-		const link = document.createElement("a");
+		const blob = new Blob([stlString], { type: 'application/sla' });
+		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
-		link.download = "room.stl";
+		link.download = 'room.stl';
 		link.click();
 	}
-
 </script>
 
 <T.PerspectiveCamera
@@ -94,7 +95,11 @@
 </T.PerspectiveCamera>
 
 {#key roomState.id}
-	<Room />
+	{#if editorState.isEditing}
+		<EditingRoom />
+	{:else}
+		<Room {roomState} />
+	{/if}
 {/key}
 
 <T.DirectionalLight position={[0, 10, 10]} intensity={lightIntensity} castShadow />

@@ -1,25 +1,25 @@
 <script>
 	import { Avatar } from '$lib/components/base/avatar';
-
 	import { Button } from '$lib/components/base/button';
 	import { Heading } from '$lib/components/base/heading';
 	import Modal from '$lib/components/base/modal/Modal.svelte';
 	import { client } from '$lib/oauth';
-	import { editorState, tryLoadingRoomFromLocalStorage } from '$lib/room/state.svelte';
-	import { modals, userInfo } from '$lib/room/ui-state.svelte';
+	import { roomState } from '$lib/room/state.svelte';
+	import { modals } from '$lib/room/ui-state.svelte';
+	import { editorState, tryLoadingRoomFromLocalStorage } from './editorState.svelte';
 </script>
 
 <div class="pointer-events-none fixed top-8 right-4 left-4 flex items-center justify-center gap-2">
-	{#if userInfo.handle}
-		<Avatar src={userInfo.profile?.avatar} />
+	{#if roomState.profile?.handle}
+		<Avatar src={roomState.profile?.avatar} />
 	{/if}
 	<Heading>
-		{#if userInfo.handle}
+		{#if roomState.profile?.handle}
 			<a
-				href={`https://bsky.app/profile/${userInfo.handle}`}
+				href={`https://bsky.app/profile/${roomState.profile?.handle}`}
 				target="_blank"
 				class="hover:text-accent-600 dark:hover:text-accent-500 pointer-events-auto"
-				>{userInfo.handle}'s</a
+				>{roomState.profile.handle}'s</a
 			>
 		{:else}
 			my
@@ -42,7 +42,7 @@
 	<Button
 		size="lg"
 		onclick={() => {
-			if (client.profile?.handle == userInfo.handle) {
+			if (client.profile?.handle == roomState.profile?.handle) {
 				editorState.isEditing = true;
 				return;
 			}
@@ -50,9 +50,11 @@
 			tryLoadingRoomFromLocalStorage(true);
 
 			editorState.isEditing = true;
+
+			history.replaceState(null, '', location.pathname);
 		}}
 	>
-		{client.profile?.handle == userInfo.handle ? 'Edit room' : 'Create room'}
+		{client.profile?.handle == roomState.profile?.handle ? 'Edit room' : 'Create room'}
 	</Button>
 </div>
 

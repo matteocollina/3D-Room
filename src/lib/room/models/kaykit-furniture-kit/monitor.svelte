@@ -13,8 +13,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
-	import Youtube from '$lib/room/Youtube.svelte';
-	import { editorState } from '$lib/room/state.svelte';
+	import Youtube from '$lib/room/models/Youtube.svelte';
 	import { Spring } from 'svelte/motion';
 
 	let {
@@ -26,6 +25,7 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 		opacity,
 		link,
 		image,
+		isEditing,
 		...props
 	}: Props<THREE.Group> & {
 		ref?: THREE.Group;
@@ -65,12 +65,10 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 	{:then gltf}
 		<T.Group
 			onpointerenter={() => {
-				if (editorState.isEditing) return;
 				scale.target = 1.1;
 				onPointerEnter();
 			}}
 			onpointerleave={() => {
-				if (editorState.isEditing) return;
 				scale.target = 1.0;
 				onPointerLeave();
 			}}
@@ -82,12 +80,11 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/monitor.gl
 			<T.Mesh castShadow receiveShadow geometry={gltf.nodes.Cube18237_1.geometry}
 				><RoomObjectMaterial colors={['#000000']} index={0} {opacity} /></T.Mesh
 			>
-			{#if !editorState.isEditing && link}
+			{#if link}
 				<Youtube
 					onclick={(evt: { stopPropagation: () => void }) => {
-						if (editorState.isEditing) return;
+						if (isEditing) return;
 						evt.stopPropagation();
-
 						playPause?.();
 					}}
 					position={[0, 0.66, 0.15]}

@@ -13,12 +13,13 @@ Command: npx @threlte/gltf@3.0.0 -t -s -u models/kaykit-furniture-kit/picturefra
 	import { type ExtraRoomObjectProps } from '../types';
 	import RoomObjectMaterial from '../RoomObjectMaterial.svelte';
 	import { base } from '$app/paths';
-	import Image from '$lib/room/Image.svelte';
+	import Image from '$lib/room/models/Image.svelte';
 
 	let {
 		fallback,
 		error,
 		children,
+		did,
 		ref = $bindable(),
 		colors,
 		opacity,

@@ -3,8 +3,8 @@
 	import { onMount } from 'svelte';
 	import * as Popover from '$lib/components/base/popover';
 	import { cn } from '$lib/utils';
-	import { editorState } from '$lib/room/state.svelte';
 	import { buttonVariants } from '$lib/components/base/button';
+	import { editorState } from './editorState.svelte';
 
 	// Open the IndexedDB on component mount
 	onMount(async () => {

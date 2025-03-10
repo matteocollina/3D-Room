@@ -11,6 +11,7 @@
 		scale,
 		rotation,
 		placement,
+		isEditing,
 		...restProps
 	}: {
 		kind: RoomObjectKind;
@@ -18,6 +19,7 @@
 		colors?: string[];
 		opacity?: number;
 		rotation?: number;
+		isEditing?: boolean;
 		placement?: 'floor' | 'wallX' | 'wallZ';
 	} & Props<THREE.Group> = $props();
 
@@ -31,6 +33,7 @@
 		{...restProps}
 		{colors}
 		{opacity}
+		{isEditing}
 		scale={scale ?? AllObjects[kind]?.scale ?? 1}
 		rotation={[
 			placement === 'wallX' ? (rotation ?? 0) : 0,

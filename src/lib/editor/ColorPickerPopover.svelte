@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Subheading } from '$lib/components/base/heading';
 	import * as Popover from '$lib/components/base/popover';
 	import ColorPicker, { type OKhsv } from '$lib/components/extra/color-picker';
 	import {
