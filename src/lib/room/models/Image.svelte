@@ -30,8 +30,6 @@
 		}
 		return null;
 	});
-
-	$inspect(myImage);
 </script>
 
 {#if image}

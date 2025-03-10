@@ -24,8 +24,6 @@
 	let categoryIndex = $state(0);
 	let category = $derived(objectCategories[categoryIndex]);
 
-	console.log(objectCategories);
-
 	function humanReadableName(key: string): string {
 		// Remove a common prefix if present (adjust if your keys differ)
 		let name = key.replace(/^kaykit-furniture-kit-/, '');

@@ -27,8 +27,6 @@
 
 		loading = false;
 	});
-
-	$inspect(roomState);
 </script>
 
 <div class="fixed inset-0 -z-20 h-[100dvh] w-screen">

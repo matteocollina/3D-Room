@@ -21,7 +21,6 @@ export async function loadRoomFromBluesky(handle: string) {
 			object.image.did = did;
 		}
 	}
-	console.log('filteredObjects', filteredObjects);
 
 	roomState.objects = filteredObjects;
 	roomState.wallColor = room.wallColor;
