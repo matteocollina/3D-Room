@@ -436,7 +436,7 @@
 	<div class="flex flex-col items-start gap-4">
 		<Heading>Room settings</Heading>
 
-		<div class="flex gap-2 mt-4">
+		<div class="mt-4 flex gap-2">
 			<Button
 				variant="secondary"
 				onclick={() => {
@@ -451,15 +451,17 @@
 				Stop editing & Preview
 			</Button>
 
-			<Button
-				variant="secondary"
-				onclick={async () => {
-					await logout();
-					window.location.reload();
-				}}
-			>
-				Logout
-			</Button>
+			{#if client.isLoggedIn}
+				<Button
+					variant="secondary"
+					onclick={async () => {
+						await logout();
+						window.location.reload();
+					}}
+				>
+					Logout
+				</Button>
+			{/if}
 		</div>
 
 		<Subheading class="mt-2">Room Size</Subheading>
