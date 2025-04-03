@@ -23,7 +23,7 @@
 	import { toast } from 'svelte-sonner';
 	import Picker from './ObjectPicker.svelte';
 	import ImageSelector from './ImageSelector.svelte';
-	import { saveRoomToBluesky } from '$lib/oauth/auth.svelte';
+	import { logout, saveRoomToBluesky } from '$lib/oauth/auth.svelte';
 	import { onMount } from 'svelte';
 	import { loadRoomFromBluesky } from '$lib/room/bluesky';
 	import {
@@ -436,20 +436,31 @@
 	<div class="flex flex-col items-start gap-4">
 		<Heading>Room settings</Heading>
 
-		<Button
-			variant="secondary"
-			class="mt-4"
-			onclick={() => {
-				applyTransformOfSelected();
-				editorState.selectedObject = null;
-				// @ts-ignore
-				roomState.profile = client.profile;
-				editorState.isEditing = false;
-				modals.roomSettingsModalState = false;
-			}}
-		>
-			Stop editing & Preview
-		</Button>
+		<div class="flex gap-2 mt-4">
+			<Button
+				variant="secondary"
+				onclick={() => {
+					applyTransformOfSelected();
+					editorState.selectedObject = null;
+					// @ts-ignore
+					roomState.profile = client.profile;
+					editorState.isEditing = false;
+					modals.roomSettingsModalState = false;
+				}}
+			>
+				Stop editing & Preview
+			</Button>
+
+			<Button
+				variant="secondary"
+				onclick={async () => {
+					await logout();
+					window.location.reload();
+				}}
+			>
+				Logout
+			</Button>
+		</div>
 
 		<Subheading class="mt-2">Room Size</Subheading>
 		<div class="flex items-center gap-2">

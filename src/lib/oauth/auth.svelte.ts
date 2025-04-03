@@ -330,7 +330,11 @@ export async function saveRoomToBluesky(roomState: RoomStateType) {
 		modals.successModalState = true;
 	} catch (e) {
 		console.error(e);
-		trackEvent('room_save_error');
-		throw new Error('Failed to save room, please try again');
+		trackEvent('room_save_error', { error: JSON.stringify(e) });
+
+		// logout
+		await logout();
+
+		throw new Error('Failed to save room, please login again and try again');
 	}
 }
