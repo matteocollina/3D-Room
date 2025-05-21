@@ -362,7 +362,7 @@
 </div>
 <div class="fixed top-4 right-4 -z-10 flex flex-col items-end gap-2">
 	{#if !client || !client.isLoggedIn}
-		<Button
+		<!-- <Button
 			onclick={() => {
 				applyTransformOfSelected();
 
@@ -380,7 +380,7 @@
 				/></svg
 			>
 			Login</Button
-		>
+		> -->
 	{:else}
 		<Button
 			onclick={() => {

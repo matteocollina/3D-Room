@@ -15,15 +15,15 @@
 	--color-base-900: var(--color-stone-900);
 	--color-base-950: var(--color-stone-950);
 
-	--color-accent-50: var(--color-pink-50);
-	--color-accent-100: var(--color-pink-100);
-	--color-accent-200: var(--color-pink-200);
-	--color-accent-300: var(--color-pink-300);
-	--color-accent-400: var(--color-pink-400);
-	--color-accent-500: var(--color-pink-500);
-	--color-accent-600: var(--color-pink-600);
-	--color-accent-700: var(--color-pink-700);
-	--color-accent-800: var(--color-pink-800);
-	--color-accent-900: var(--color-pink-900);
-	--color-accent-950: var(--color-pink-950);
+	--color-accent-50: #e0fff6;
+	--color-accent-100: #b3ffec;
+	--color-accent-200: #80ffe1;
+	--color-accent-300: #4dffd7;
+	--color-accent-400: #26ffce;
+	--color-accent-500: #01ffba; /* colore principale */
+	--color-accent-600: #01e0a6;
+	--color-accent-700: #01b88a;
+	--color-accent-800: #01996f;
+	--color-accent-900: #017f5c;
+	--color-accent-950: #005f44;
 }

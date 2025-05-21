@@ -21,8 +21,8 @@
 
 <Head
 	emojiFavicon="🏠"
-	title="my room"
-	description="my tiny bluesky room"
+	title="3D Steam Effe"
+	description="Effe Perfect Wellness 3D Steam Configurator"
 	image={base + '/og-image.jpg'}
 />
 
