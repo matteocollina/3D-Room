@@ -70,6 +70,7 @@
 		{#each objectCategories as category, i}
 			<Button
 				onclick={() => {
+					console.log("selected category", category);
 					categoryIndex = i;
 					open = true;
 					selectCategoryModalOpen = false;
@@ -122,6 +123,7 @@
 					id="item"
 					class="hover:bg-base-200/40 dark:hover:bg-base-800/40 m-4 inline-block cursor-pointer rounded-2xl p-4 transition-all duration-300 hover:scale-105"
 					onclick={() => {
+						console.log('adding object', item);
 						addObject(item.kind as RoomObjectKind);
 						open = false;
 					}}

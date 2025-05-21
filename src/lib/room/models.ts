@@ -96,6 +96,8 @@ import KayKitShelfBSmall from './models/kaykit-furniture-kit/shelf_b_small.svelt
 import KayKitCabinetMedium from './models/kaykit-furniture-kit/cabinet_medium.svelte';
 import Plant from './models/tiny-treats-bubbly-bathroom/plant.svelte';
 
+import EffeOfv25 from './models/effegibi-forniture-kit/ofv25.svelte';
+
 export const AllObjects: {
 	[key: string]: {
 		component: unknown;
@@ -859,6 +861,15 @@ export const AllObjects: {
 		placement: 'floor',
 		image: false,
 		scale: 0.4,
+		category: 'miscellaneous'
+	},
+	'effe-ofv25': {
+		component: EffeOfv25,
+		colors: 2,
+		visible: true,
+		placement: 'floor',
+		image: false,
+		scale: 1,
 		category: 'miscellaneous'
 	}
 };
