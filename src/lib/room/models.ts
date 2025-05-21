@@ -96,7 +96,7 @@ import KayKitShelfBSmall from './models/kaykit-furniture-kit/shelf_b_small.svelt
 import KayKitCabinetMedium from './models/kaykit-furniture-kit/cabinet_medium.svelte';
 import Plant from './models/tiny-treats-bubbly-bathroom/plant.svelte';
 
-import EffeOfv25 from './models/effegibi-forniture-kit/ofv25.svelte';
+import AquasteamWithCounterbox from './models/effegibi-forniture-kit/aquasteam_with_counterbox.svelte';
 
 export const AllObjects: {
 	[key: string]: {
@@ -863,13 +863,13 @@ export const AllObjects: {
 		scale: 0.4,
 		category: 'miscellaneous'
 	},
-	'effe-ofv25': {
-		component: EffeOfv25,
+	'aquasteam-with-counterbox': {
+		component: AquasteamWithCounterbox,
 		colors: 2,
 		visible: true,
 		placement: 'floor',
 		image: false,
-		scale: 1,
+		scale: 0.05,
 		category: 'miscellaneous'
 	}
 };
